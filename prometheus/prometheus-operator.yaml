@@ -16,10 +16,10 @@ repositories:
   - name: "stable"
     url: "https://kubernetes-charts.storage.googleapis.com/"
 
-environments:
-  default:
-    values:
-      - {{ env "PROMETHEUS_SERVICES_ENVRC" | default "prometheus-services.envrc" }}
+# environments:
+#   default:
+#     values:
+#       - {{ env "PROMETHEUS_SERVICES_YAML" | default "prometheus-services.envrc" }}
 
 releases:
 
