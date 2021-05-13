@@ -1,0 +1,358 @@
+repositories:
+# Official kiam chart repository
+- name: "uswitch"
+  url: "https://uswitch.github.io/kiam-helm-charts/charts/"
+  # Kubernetes incubator repo of helm charts
+- name: "kubernetes-incubator"
+  url: "https://charts.helm.sh/incubator"
+
+  # Cloud Posse incubator repo of helm charts
+- name: "cloudposse-incubator"
+  url: "https://charts.cloudposse.com/incubator/"
+
+releases:
+
+################################################################################
+## kiam - AWS Assumed Roles for Pods #######################################
+################################################################################
+#
+# This release REQUIRES that kiam support RollingUpdate without a service outage, because we have enabled
+# automatic rotation of the TLS secrets, and without RollingUpdate support that rotation will cause a service outage.
+#
+# You need to decide on and implement a strategy for managing the iptables rules kiam needs.
+# See https://github.com/uswitch/kiam/tree/master/helm/kiam#key-configuration
+#
+# This release unconditionally sets iptablesRemoveOnShutdown: false and iptables: false
+#
+# Cloudposse currently installs this iptable via a kops cluster hook, but you are free to install it however you like.
+#
+# The required iptable rule is
+#    PREROUTING -d 169.254.169.254/32 -i $INTERFACE_NAME -p tcp -m tcp --dport 80 -j DNAT --to-destination $HOST_LOCAL_IP:8181
+# where $INTERFACE_NAME is the pod networking interface name and $HOST_LOCAL_IP is the node's local IPv4 address.
+#
+# Cloudposse installs the iptable rule with this command ( cali+ because we are using calico networking)
+#   /bin/sh -c '/sbin/iptables -t nat -A PREROUTING -d 169.254.169.254/32 -i cali+ -p tcp -m tcp --dport 80 -j DNAT --to-destination $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):8181'
+#
+#
+# This release REQUIRES that cert-manager v1.x is installed and available, as it uses it to provision the
+# TLS certificates that secure the communication between the kiam agents and servers.
+#
+# This release OPTIONALLY uses stakater/reloader, if installed,
+# to automatically restart kiam pods when the TLS certificates change
+#
+# Here we provision the certificate issuers, and then provision the certificates:
+# Reference:  https://github.com/michas2/kiam/blob/ae9cbeb901e5c2682f17c773f9f965a9fe51720d/docs/TLS.md#cert-manager
+- name: 'kiam-tls'
+  chart: "kubernetes-incubator/raw"
+  namespace: kube-system
+  labels:
+    component: "iam"
+    namespace: "kube-system"
+    default: "true"
+  version: "0.2.3"
+  wait: true
+  force: true
+  recreatePods: true
+  installed: {{ env "KIAM_INSTALLED" | default "true" }}
+  values:
+    - resources:
+        - apiVersion: cert-manager.io/v1
+          kind: Issuer
+          metadata:
+            name: kiam-selfsigning-issuer
+          spec:
+            selfSigned: {}
+
+        - apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: kiam-ca
+          spec:
+            secretName: kiam-ca-tls
+            commonName: "kiam-ca"
+            isCA: true
+            issuerRef:
+              name: kiam-selfsigning-issuer
+
+        - apiVersion: cert-manager.io/v1
+          kind: Issuer
+          metadata:
+            name: kiam-ca-issuer
+          spec:
+            ca:
+              secretName: kiam-ca-tls
+
+        - apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: kiam-agent
+          spec:
+            secretName: kiam-agent-tls
+            commonName: agent
+            duration: 2160h # 90d
+            renewBefore: 360h # 15d
+            privateKey:
+              rotationPolicy: Always
+            issuerRef:
+              name: kiam-ca-issuer
+
+        - apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: kiam-server
+          spec:
+            secretName: kiam-server-tls
+            duration: 2160h # 90d
+            renewBefore: 360h # 15d
+            privateKey:
+              rotationPolicy: Always
+            issuerRef:
+              name: kiam-ca-issuer
+            dnsNames:
+              - "localhost"
+              - "kiam-server"
+            ipAddresses:
+              - "127.0.0.1"
+
+#
+# References:
+#   - https://github.com/kubernetes/charts/blob/master/stable/kiam/values.yaml
+#
+# Here we deploy kiam itself
+# The release name must be "kiam" for chart to work properly with TLS/PKI certs
+- name: "kiam"
+  needs: ["kube-system/kiam-tls"]
+  namespace: "kube-system"
+  labels:
+    chart: "kiam"
+    repo: "stable"
+    component: "iam"
+    namespace: "kube-system"
+    vendor: "uswitch"
+    default: "true"
+  chart: "uswitch/kiam"
+  version: "6.0.x"
+  wait: true
+  recreatePods: false
+  installed: {{ env "KIAM_INSTALLED" | default "true" }}
+  hooks:
+    # This hoook adds the annotation that allows pods in the kube-system namespace to assume any annotated role
+    - events: ["presync"]
+      command: "/bin/sh"
+      args: ["-c", "kubectl annotate --overwrite namespace kube-system 'iam.amazonaws.com/permitted=.*'"]
+    # This hook adds the annotation that instructs stakater/reloader to watch the DaemonSet's secrets and configmaps
+    # and reload the DeamonSet when they change.
+    - events: ["postsync"]
+      command: "/bin/sh"
+      args: ["-c", "kubectl annotate --overwrite --namespace={{`{{ .Release.Namespace }}`}} DaemonSet --selector=app=kiam reloader.stakater.com/auto=true"]
+  values:
+    - rbac:
+        ### Optional: RBAC_ENABLED;
+        create: {{ env "RBAC_ENABLED" | default "false" }}
+      serviceAccounts:
+        agent:
+          ### Optional: RBAC_ENABLED;
+          create: {{ env "RBAC_ENABLED" | default "false" }}
+          ### Optional: KIAM_AGENT_SERVICE_ACCOUNT_NAME;
+          name: '{{ env "KIAM_AGENT_SERVICE_ACCOUNT_NAME" | default "" }}'
+        server:
+          ### Optional: RBAC_ENABLED;
+          create: {{ env "RBAC_ENABLED" | default "false" }}
+          ### Optional: KIAM_SERVER_SERVICE_ACCOUNT_NAME;
+          name: '{{ env "KIAM_SERVER_SERVICE_ACCOUNT_NAME" | default "" }}'
+      agent:
+        # Use chart default version of image if not otherwise specified
+        {{- if (env "KIAM_IMAGE_TAG") }}
+        image:
+          tag: {{ env "KIAM_IMAGE_TAG" | quote }}
+        {{- end }}
+        gatewayTimeoutCreation: "5s"
+        host:
+          # IP tables must be set up on node independently of kiam in order to support rolling updates. See above.
+          iptables: false
+          iptablesRemoveOnShutdown: false
+          interface: "cali+"
+        nodeSelector:
+          kubernetes.io/role: "node"
+        tolerations:
+          - operator: "Exists"
+        tlsSecret: kiam-agent-tls
+        tlsCerts:
+          certFileName: tls.crt
+          keyFileName:  tls.key
+          caFileName:   ca.crt
+        updateStrategy: RollingUpdate
+        extraArgs:
+          # By default, starting with kiam version 3.0, no access is allowed to AWS metadata except the
+          # pod's assigned IAM role and corresponding credentials. Here we return to essentially full
+          # access to the metadata, while also doing a sanity check on the URL and giving you a template
+          # in case you want to restrict access to one section of data.
+          whitelist-route-regexp: '^/(latest/(meta-data|user-data|dynamic)|$)'
+        extraEnv:
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: '{{ env "GRPC_GO_LOG_SEVERITY_LEVEL" | default "info" }}'
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: '{{ env "GRPC_GO_LOG_VERBOSITY_LEVEL" | default "1" }}'
+      server:
+        # Use chart default version of image if not otherwise specified
+        {{- if (env "KIAM_IMAGE_TAG") }}
+        image:
+          tag: {{ env "KIAM_IMAGE_TAG" | quote }}
+        {{- end }}
+        gatewayTimeoutCreation: "5s"
+        sessionDuration: {{ env "KIAM_SERVER_SESSION_DURATION" | default "15m" }}
+        nodeSelector:
+          kubernetes.io/role: "master"
+        tolerations:
+          - key: "node-role.kubernetes.io/master"
+            effect: "NoSchedule"
+            operator: "Exists"
+        extraEnv:
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: '{{ env "GRPC_GO_LOG_SEVERITY_LEVEL" | default "info" }}'
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: '{{ env "GRPC_GO_LOG_VERBOSITY_LEVEL" | default "1" }}'
+        extraArgs:
+          session-refresh: {{ env "KIAM_SERVER_SESSION_REFRESH" | default "5m" }}
+        sslCertHostPath: '{{ env "KIAM_HOST_CERT_PATH" | default "/etc/ssl/certs" }}'
+        tlsSecret: kiam-server-tls
+        tlsCerts:
+          certFileName: tls.crt
+          keyFileName:  tls.key
+          caFileName:   ca.crt
+        updateStrategy: RollingUpdate
+
+- name: 'kiam-prometheus'
+  namespace: kube-system
+  labels:
+    component: "iam"
+    namespace: "kube-system"
+    default: "false"
+  chart: "cloudposse-incubator/monochart"
+  version: "0.17.0"
+  wait: true
+  # Unfortunately, you cannot split a go template statement across multiple lines, so this has to be one big long line
+  installed: {{ and (eq ( env "KIAM_PROMETHEUS_INSTALLED" | default "false" ) "true") (eq ( env "KIAM_INSTALLED" | default "true" ) "true" ) }}
+  values:
+  - serviceMonitors:
+      server:
+        labels:
+          app: prometheus-operator-prometheus
+        selector:
+          matchLabels:
+            app: kiam
+            release: kiam
+            component: server
+        namespaceSelector:
+          matchNames:
+            - kube-system
+        endpoints:
+          - port: "metrics"
+            interavl: 15s
+
+      agent:
+        labels:
+          app: prometheus-operator-prometheus
+        selector:
+          matchLabels:
+            app: kiam
+            release: kiam
+            component: agent
+        namespaceSelector:
+          matchNames:
+            - kube-system
+        endpoints:
+          - port: "metrics"
+            interavl: 15s
+
+    prometheusRules:
+      default:
+        labels:
+          app: prometheus-operator-prometheus
+        groups:
+          - name: kiam.rules
+            rules:
+            - alert: kiam_sts_issuing_errors_total
+              annotations:
+                message: There are errors issuing credentials
+                description: Number of errors issuing credentials
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"error%20requesting%20credentials"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_STS_ISSUING_ERROR_TOTAL_WARNING_EXPR" | default "increase(kiam_sts_issuing_errors_total[1m]) >= 1" }}
+              labels:
+                severity: warning
+            - alert: kiam_sts_issuing_errors_total
+              annotations:
+                message: There are errors issuing credentials
+                description: Number of errors issuing credentials
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"error%20requesting%20credentials"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_STS_ISSUING_ERROR_TOTAL_CRITICAL_EXPR" | default "increase(kiam_sts_issuing_errors_total[5m]) >= 1" }}
+              labels:
+                severity: critical
+
+            - alert: kiam_metadata_find_role_errors_total
+              annotations:
+                message: Pod try to use non-exiting role
+                description: Number of errors finding the role for a pod
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'%22error%20finding%20role%20for%20pod%22'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_FIND_ROLE_ERRORS_TOTAL_WARNING_EXPR" | default "increase(kiam_metadata_find_role_errors_total[1m]) >= 1" }}
+              labels:
+                severity: warning
+            - alert: kiam_metadata_find_role_errors_total
+              annotations:
+                message: Pod try to use non-exiting role
+                description: Number of errors finding the role for a pod
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'%22error%20finding%20role%20for%20pod%22'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_FIND_ROLE_ERRORS_TOTAL_CRITICAL_EXPR" | default "increase(kiam_metadata_find_role_errors_total[5m]) >= 1" }}
+              labels:
+                severity: critical
+
+            - alert: kiam_metadata_empty_role_total
+              annotations:
+                message: Pod try to use empty role
+                description: Number of empty roles returned
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"empty%20role"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_EMPTY_ROLE_TOTAL_WARNING_EXPR" | default "increase(kiam_metadata_empty_role_total[1m]) >= 1" }}
+              labels:
+                severity: warning
+            - alert: kiam_metadata_empty_role_total
+              annotations:
+                message: Pod try to use empty role
+                description: Number of empty roles returned
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"empty%20role"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_EMPTY_ROLE_TOTAL_CRITICAL_EXPR" | default "increase(kiam_metadata_empty_role_total[5m]) >= 1" }}
+              labels:
+                severity: critical
+
+            - alert: kiam_metadata_credential_fetch_errors_total
+              annotations:
+                message: Error fetch aws credentials
+                description: Number of errors fetching the credentials for a pod
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"error%20fetching%20credentials"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_CREDENTIAL_FETCH_ERRORS_TOTAL_WARNING_EXPR" | default "increase(kiam_metadata_credential_fetch_errors_total[1m]) >= 1" }}
+              labels:
+                severity: warning
+            - alert: kiam_metadata_credential_fetch_errors_total
+              annotations:
+                message: Error fetch aws credentials
+                description: Number of errors fetching the credentials for a pod
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"error%20fetching%20credentials"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_CREDENTIAL_FETCH_ERRORS_TOTAL_CRITICAL_EXPR" | default "increase(kiam_metadata_credential_fetch_errors_total[5m]) >= 1" }}
+              labels:
+                severity: critical
+
+            - alert: kiam_metadata_proxy_requests_blocked_total
+              annotations:
+                message: Assuming role blocked because of namespace annotations `iam.amazonaws.com/permitted`
+                description: Number of access requests to the proxy handler that were blocked by the regexp
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"request%20blocked%20by%20whitelist-route-regexp"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_PROXY_REQUESTS_BLOCKED_TOTAL_WARNING_EXPR" | default "increase(kiam_metadata_proxy_requests_blocked_total[1m]) >= 1" }}
+              labels:
+                severity: warning
+            - alert: kiam_metadata_proxy_requests_blocked_total
+              annotations:
+                message: Assuming role blocked because of namespace annotations `iam.amazonaws.com/permitted`
+                description: Number of access requests to the proxy handler that were blocked by the regexp
+                logs: {{ env "KIBANA_EXTERNAL_URL" }}/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:kubernetes.labels.release,negate:!f,params:(query:kiam,type:phrase),type:phrase,value:kiam),query:(match:(kubernetes.labels.release:(query:kiam,type:phrase))))),index:'logstash-*',interval:auto,query:(language:lucene,query:'"request%20blocked%20by%20whitelist-route-regexp"'),sort:!('@timestamp',desc))
+              expr: {{ env "KIAM_ALERT_METADATA_PROXY_REQUESTS_BLOCKED_TOTAL_CRITICAL_EXPR" | default "increase(kiam_metadata_proxy_requests_blocked_total[5m]) >= 1" }}
+              labels:
+                severity: critical
