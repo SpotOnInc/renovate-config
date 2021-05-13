@@ -18,7 +18,7 @@ releases:
       namespace: "monitoring"
       vendor: "datadog"
     chart: "datadog/datadog"
-    version: '{{ env "DATADOG_CHART_VERSION" | default "2.6.12" }}'
+    version: '{{ env "DATADOG_CHART_VERSION" | default "2.13.0" }}'
     wait: {{ env "DATADOG_APPLY_WAIT" | default "true" }}
     timeout: {{ env "DATADOG_APPLY_TIMEOUT" | default "300" }}
     atomic: {{ env "DATADOG_APPLY_ATOMIC" | default "true" }}
@@ -45,6 +45,8 @@ releases:
             enableOOMKill: {{ env "DATADOG_SYSTEM_PROBE_ENABLED" | default "false" }}
           kubeStateMetricsEnabled: {{ env "DATADOG_KUBE_STATE_METRICS_ENABLED" | default "true" }}
           collectEvents: {{ env "DATADOG_COLLECT_EVENTS_ENABLED" | default "true" }}
+          dogstatsd:
+            nonLocalTraffic: true
           leaderElection: {{ env "DATADOG_LEADER_ELECTION_ENABLED" | default "true" }}
           # https://docs.datadoghq.com/getting_started/tagging/
           {{- if env "DATADOG_TAGS" }}
