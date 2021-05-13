@@ -1,0 +1,93 @@
+repositories:
+  - name: "datadog"
+    url: "https://helm.datadoghq.com"
+
+releases:
+
+  # Datadog is a hosted infrastructure monitoring platform
+  # https://github.com/DataDog/helm-charts
+  # https://docs.datadoghq.com/agent/kubernetes/helm/
+  # https://github.com/DataDog/helm-charts/blob/master/charts/datadog/values.yaml
+
+  - name: "datadog"
+    namespace: "monitoring"
+    labels:
+      chart: "datadog"
+      repo: "datadog"
+      component: "datadog"
+      namespace: "monitoring"
+      vendor: "datadog"
+    chart: "datadog/datadog"
+    version: '{{ env "DATADOG_CHART_VERSION" | default "2.6.12" }}'
+    wait: {{ env "DATADOG_APPLY_WAIT" | default "true" }}
+    timeout: {{ env "DATADOG_APPLY_TIMEOUT" | default "300" }}
+    atomic: {{ env "DATADOG_APPLY_ATOMIC" | default "true" }}
+    cleanupOnFail: {{ env "DATADOG_APPLY_CLEANUP_ON_FAIL" | default "true" }}
+    installed: {{ env "DATADOG_INSTALLED" | default "true" }}
+    createNamespace: {{ env "DATADOG_CREATE_NAMESPACE" | default "true" }}
+    values:
+      - datadog:
+          clusterName: '{{ env "DATADOG_CLUSTER_NAME" }}'
+          apiKey: '{{ env "DATADOG_API_KEY" }}'
+          appKey: '{{ env "DATADOG_APP_KEY" }}'
+          logLevel: '{{ env "DATADOG_LOG_LEVEL" | default "INFO" }}'
+          logs:
+            enabled: {{ env "DATADOG_LOGS_ENABLED" | default "false" }}
+            containerCollectAll: {{ env "DATADOG_LOGS_CONTAINER_COLLECT_ALL" | default "false" }}
+          apm:
+            enabled: {{ env "DATADOG_APM_ENABLED" | default "false" }}
+          processAgent:
+            enabled: {{ env "DATADOG_PROCESS_AGENT_ENABLED" | default "false" }}
+            processCollection: {{ env "DATADOG_PROCESS_AGENT_PROCESS_COLLECTION_ENABLED" | default "false" }}
+          systemProbe:
+            # systemProbe.enabled is deprecated, see https://github.com/DataDog/helm-charts/pull/101
+            # enableOOMKill implicitly enables systemProbe
+            enableOOMKill: {{ env "DATADOG_SYSTEM_PROBE_ENABLED" | default "false" }}
+          kubeStateMetricsEnabled: {{ env "DATADOG_KUBE_STATE_METRICS_ENABLED" | default "true" }}
+          collectEvents: {{ env "DATADOG_COLLECT_EVENTS_ENABLED" | default "true" }}
+          leaderElection: {{ env "DATADOG_LEADER_ELECTION_ENABLED" | default "true" }}
+          # https://docs.datadoghq.com/getting_started/tagging/
+          {{- if env "DATADOG_TAGS" }}
+          tags:
+            {{- range $i, $tag := ( (env "DATADOG_TAGS") | splitList "," ) }} #" IDE bugfix
+            - "{{ $tag }}"
+            {{- end }}
+          {{- end }}
+          # extra configuration, see https://github.com/helm/charts/blob/master/stable/datadog/values.yaml#L268-L285
+          {{- if and (ne (env "DATADOG_KUBE_APISERVER_PORT" | default "6443") "6443") (eq (env "DATADOG_AGENT_ON_MASTERS_ENABLED" | default "false") "true") }}
+          confd:
+            kube_apiserver_metrics.yaml: |-
+              ad_identifiers:
+                - kube-apiserver
+              init_config:
+              instances:
+              - prometheus_url: https://%%host%%:{{- env "DATADOG_KUBE_APISERVER_PORT" | default "6443" -}}/metrics
+                bearer_token_auth: true
+                tags:
+                - apiserver:%%host%%
+          {{- end }}
+        agents:
+          priorityClassName: system-node-critical
+          {{- if eq (env "DATADOG_AGENT_ON_MASTERS_ENABLED" | default "false") "true" }}
+          {{- if ne (env "DATADOG_KUBE_APISERVER_PORT" | default "6443") "6443" }}
+          containers:
+            agent:
+              env:
+              - name: DD_IGNORE_AUTOCONF
+                value: kube_apiserver_metrics
+          {{- end }}
+          tolerations:
+          - operator: "Exists"
+            effect: "NoSchedule"
+          - operator: "Exists"
+            effect: "NoExecute"
+            tolerationSeconds: 120
+          {{- end }}
+        clusterAgent:
+          enabled: {{ env "DATADOG_CLUSTER_AGENT_ENABLED" | default "true" }}
+          priorityClassName: system-cluster-critical
+          replicas: {{ env "DATADOG_CLUSTER_AGENT_REPLICA_COUNT" | default "1" }}
+          metricsProvider:
+            enabled: {{ env "DATADOG_CLUSTER_AGENT_METRICS_PROVIDER_ENABLED" | default "false" }}
+          clusterChecks:
+            enabled: {{ env "DATADOG_CLUSTER_AGENT_CLUSTER_CHECKS_ENABLED" | default "true" }}
