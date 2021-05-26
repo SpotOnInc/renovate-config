@@ -182,6 +182,8 @@ releases:
           keyFileName:  tls.key
           caFileName:   ca.crt
         updateStrategy: RollingUpdate
+        log:
+          level: '{{ env "KIAM_AGENT_LOG_LEVEL" | default "info" }}'
         extraArgs:
           # By default, starting with kiam version 3.0, no access is allowed to AWS metadata except the
           # pod's assigned IAM role and corresponding credentials. Here we return to essentially full
@@ -207,6 +209,8 @@ releases:
           - key: "node-role.kubernetes.io/master"
             effect: "NoSchedule"
             operator: "Exists"
+        log:
+          level: '{{ env "KIAM_SERVER_LOG_LEVEL" | default "info" }}'
         extraEnv:
         - name: GRPC_GO_LOG_SEVERITY_LEVEL
           value: '{{ env "GRPC_GO_LOG_SEVERITY_LEVEL" | default "info" }}'
