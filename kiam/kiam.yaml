@@ -41,7 +41,7 @@ releases:
 # to automatically restart kiam pods when the TLS certificates change
 #
 # Here we provision the certificate issuers, and then provision the certificates:
-# Reference:  https://github.com/michas2/kiam/blob/ae9cbeb901e5c2682f17c773f9f965a9fe51720d/docs/TLS.md#cert-manager
+# Reference:  https://github.com/uswitch/kiam/blob/master/docs/TLS.md
 - name: 'kiam-tls'
   chart: "kubernetes-incubator/raw"
   namespace: kube-system
@@ -56,14 +56,14 @@ releases:
   installed: {{ env "KIAM_INSTALLED" | default "true" }}
   values:
     - resources:
-        - apiVersion: cert-manager.io/v1
+        - apiVersion: cert-manager.io/v1alpha2
           kind: Issuer
           metadata:
             name: kiam-selfsigning-issuer
           spec:
             selfSigned: {}
 
-        - apiVersion: cert-manager.io/v1
+        - apiVersion: cert-manager.io/v1alpha2
           kind: Certificate
           metadata:
             name: kiam-ca
@@ -73,8 +73,10 @@ releases:
             isCA: true
             issuerRef:
               name: kiam-selfsigning-issuer
+            usages:
+            - "any"
 
-        - apiVersion: cert-manager.io/v1
+        - apiVersion: cert-manager.io/v1alpha2
           kind: Issuer
           metadata:
             name: kiam-ca-issuer
@@ -82,32 +84,29 @@ releases:
             ca:
               secretName: kiam-ca-tls
 
-        - apiVersion: cert-manager.io/v1
+        - apiVersion: cert-manager.io/v1alpha2
           kind: Certificate
           metadata:
             name: kiam-agent
           spec:
             secretName: kiam-agent-tls
             commonName: agent
-            duration: 2160h # 90d
-            renewBefore: 360h # 15d
-            privateKey:
-              rotationPolicy: Always
             issuerRef:
               name: kiam-ca-issuer
+            usages:
+            - "any"
 
-        - apiVersion: cert-manager.io/v1
+
+        - apiVersion: cert-manager.io/v1alpha2
           kind: Certificate
           metadata:
             name: kiam-server
           spec:
             secretName: kiam-server-tls
-            duration: 2160h # 90d
-            renewBefore: 360h # 15d
-            privateKey:
-              rotationPolicy: Always
             issuerRef:
               name: kiam-ca-issuer
+            usages:
+            - "any"
             dnsNames:
               - "localhost"
               - "kiam-server"
