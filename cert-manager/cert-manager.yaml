@@ -29,7 +29,7 @@ releases:
   # the chart being installed to create this release, referenced by `repository/chart` syntax
   chart: "cert-manager/cert-manager"
   # the semver of the chart. range constraint is supported
-  version: 1.3.x
+  version: {{ env "CERT_MANAGER_CHART_VERSION" | default "1.3.x" }}
   # wait for k8s resources via --wait. (default false)
   wait: true
   # time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks, and waits on pod/pvc/svc/deployment readiness) (default 300)
