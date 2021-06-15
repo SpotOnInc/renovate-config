@@ -70,6 +70,9 @@ releases:
                 - apiserver:%%host%%
           {{- end }}
         agents:
+          image:
+            # Using a custom DD image to include extra integrations (DEV-2159)
+            repository: "656168747096.dkr.ecr.us-east-1.amazonaws.com/datadog"
           priorityClassName: system-node-critical
           {{- if eq (env "DATADOG_AGENT_ON_MASTERS_ENABLED" | default "false") "true" }}
           {{- if ne (env "DATADOG_KUBE_APISERVER_PORT" | default "6443") "6443" }}
