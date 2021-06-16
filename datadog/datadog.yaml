@@ -18,7 +18,7 @@ releases:
       namespace: "monitoring"
       vendor: "datadog"
     chart: "datadog/datadog"
-    version: '{{ env "DATADOG_CHART_VERSION" | default "2.13.0" }}'
+    version: '{{ env "DATADOG_CHART_VERSION" | default "2.16.4" }}'
     wait: {{ env "DATADOG_APPLY_WAIT" | default "true" }}
     timeout: {{ env "DATADOG_APPLY_TIMEOUT" | default "600" }}
     atomic: {{ env "DATADOG_APPLY_ATOMIC" | default "true" }}
