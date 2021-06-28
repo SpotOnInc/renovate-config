@@ -56,14 +56,14 @@ releases:
   installed: {{ env "KIAM_INSTALLED" | default "true" }}
   values:
     - resources:
-        - apiVersion: cert-manager.io/v1alpha2
+        - apiVersion: cert-manager.io/v1
           kind: Issuer
           metadata:
             name: kiam-selfsigning-issuer
           spec:
             selfSigned: {}
 
-        - apiVersion: cert-manager.io/v1alpha2
+        - apiVersion: cert-manager.io/v1
           kind: Certificate
           metadata:
             name: kiam-ca
@@ -76,7 +76,7 @@ releases:
             usages:
             - "any"
 
-        - apiVersion: cert-manager.io/v1alpha2
+        - apiVersion: cert-manager.io/v1
           kind: Issuer
           metadata:
             name: kiam-ca-issuer
@@ -84,7 +84,7 @@ releases:
             ca:
               secretName: kiam-ca-tls
 
-        - apiVersion: cert-manager.io/v1alpha2
+        - apiVersion: cert-manager.io/v1
           kind: Certificate
           metadata:
             name: kiam-agent
@@ -97,7 +97,7 @@ releases:
             - "any"
 
 
-        - apiVersion: cert-manager.io/v1alpha2
+        - apiVersion: cert-manager.io/v1
           kind: Certificate
           metadata:
             name: kiam-server
@@ -194,6 +194,12 @@ releases:
           value: '{{ env "GRPC_GO_LOG_SEVERITY_LEVEL" | default "info" }}'
         - name: GRPC_GO_LOG_VERBOSITY_LEVEL
           value: '{{ env "GRPC_GO_LOG_VERBOSITY_LEVEL" | default "1" }}'
+        # Add autodiscovery metrics from datadog
+        podAnnotations:
+          ad.datadoghq.com/kiam-agent.check_names: '["openmetrics"]'
+          ad.datadoghq.com/kiam-agent.init_configs: '[{}]'
+          ad.datadoghq.com/kiam-agent.instances: '[{"prometheus_url":"http://%%host%%:9620/metrics","namespace":"kiam","metrics":["*"]}]'
+
       server:
         # Use chart default version of image if not otherwise specified
         {{- if (env "KIAM_IMAGE_TAG") }}
@@ -224,6 +230,11 @@ releases:
           keyFileName:  tls.key
           caFileName:   ca.crt
         updateStrategy: RollingUpdate
+        # Add autodiscovery metrics from datadog
+        podAnnotations:
+          ad.datadoghq.com/kiam-agent.check_names: '["openmetrics"]'
+          ad.datadoghq.com/kiam-agent.init_configs: '[{}]'
+          ad.datadoghq.com/kiam-agent.instances: '[{"prometheus_url":"http://%%host%%:9620/metrics","namespace":"kiam","metrics":["*"]}]'
 
 - name: 'kiam-prometheus'
   namespace: kube-system
