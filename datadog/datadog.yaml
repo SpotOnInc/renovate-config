@@ -68,6 +68,14 @@ releases:
                 bearer_token_auth: true
                 tags:
                 - apiserver:%%host%%
+            tls.yaml: |-
+              init_config:
+              instances:
+                - server: www.spoton.com
+                - server: omnichannel.spoton.com
+                - server: login.spoton.com
+                - server: olo.spoton.com
+                - server: omnichannel-prod.us-east-1.prod.spoton.sh
           {{- end }}
         agents:
           image:
