@@ -68,14 +68,10 @@ releases:
                 bearer_token_auth: true
                 tags:
                 - apiserver:%%host%%
-            tls.yaml: |-
-              init_config:
-              instances:
-                - server: www.spoton.com
-                - server: omnichannel.spoton.com
-                - server: login.spoton.com
-                - server: olo.spoton.com
-                - server: omnichannel-prod.us-east-1.prod.spoton.sh
+            # Enable/disable check to spoton domains from agent (only on DATA for now)
+            {{- if eq (env "DATADOG_CHECK_TLS_DOMAINS" | default "false") "true" }}
+              {{ readFile "spoton_datadog_tls_conf.yaml" | nindent 12  }}
+            {{- end }}
           {{- end }}
         agents:
           image:
