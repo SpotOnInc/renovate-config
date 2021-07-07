@@ -1,42 +1,52 @@
-repositories:
 # Stakater's chart repo
+repositories:
 - name: "stakater"
   url: "https://stakater.github.io/stakater-charts"
 
-
 releases:
-
 ################################################################################
 ## Relaoder: A Kubernetes controller to watch changes in ConfigMap and Secrets
 ## and then restart pods for Deployment, StatefulSet and DaemonSet.
 ################################################################################
-
 #
 # References:
 # - https://github.com/stakater/Reloader
 # - https://github.com/stakater/Reloader/tree/master/deployments/kubernetes/chart/reloader
 # - https://github.com/stakater/Reloader/blob/master/deployments/kubernetes/chart/reloader/values.yaml
 #
-# Instructions for testing correct install are at
-- name: "reloader"
-  namespace: '{{ env "RELOADER_NAMESPACE" | default "reloader" }}'
-  labels:
-    chart: "stakater/reloader"
-    repo: "stakater"
-    component: "reloader"
+  - name: "reloader"
     namespace: '{{ env "RELOADER_NAMESPACE" | default "reloader" }}'
-    vendor: "stakater"
-    default: "true"
-  chart: "stakater/reloader"
-  version: "v0.0.26"
-  wait: true
-  installed: {{ env "RELOADER_INSTALLED" | default "true" }}
-  values:
-    - rbac:
-        ### Optional: RBAC_ENABLED;
-        enabled: {{ env "RBAC_ENABLED" | default "false" }}
-      serviceAccount:
-        ### Optional: RBAC_ENABLED;
-        create: {{ env "RBAC_ENABLED" | default "false" }}
-        ### Optional: RELOADER_SERVICE_ACCOUNT_NAME;
-        name: '{{ env "RELOADER_SERVICE_ACCOUNT_NAME" | default "reloader" }}'
+    labels:
+      chart: "stakater/reloader"
+      repo: "stakater"
+      component: "reloader"
+      namespace: '{{ env "RELOADER_NAMESPACE" | default "reloader" }}'
+      vendor: "stakater"
+      default: "true"
+    chart: "stakater/reloader"
+    version:  '{{ env "RELOADER_CHART_VERSION" | default "v0.0.95" }}'
+    wait: {{ env "RELOADER_APPLY_WAIT" | default "true" }}
+    timeout: {{ env "RELOADER_APPLY_TIMEOUT" | default "300" }}
+    atomic: {{ env "RELOADER_APPLY_ATOMIC" | default "true" }}
+    cleanupOnFail: {{ env "RELOADER_APPLY_CLEANUP_ON_FAIL" | default "true" }}
+    installed: {{ env "RELOADER_INSTALLED" | default "true" }}
+    createNamespace: {{ env "RELOADER_CREATE_NAMESPACE" | default "true" }}
+
+    values:
+      - fullnameOverride: "reloader"
+        reloader:
+          deployment:
+            # Add autodiscovery metrics from datadog
+            annotations:
+              ad.datadoghq.com/reloader.check_names: '["openmetrics"]'
+              ad.datadoghq.com/reloader.init_configs: '[{}]'
+              ad.datadoghq.com/reloader.instances: '[{"prometheus_url":"http://%%host%%:9090/metrics","namespace":"reloader","metrics":["*"]}]'
+          rbac:
+            ### Optional: RBAC_ENABLED;
+            enabled: {{ env "RBAC_ENABLED" | default "false" }}
+          serviceAccount:
+            ### Optional: RBAC_ENABLED;
+            create: {{ env "RBAC_ENABLED" | default "false" }}
+            ### Optional: RELOADER_SERVICE_ACCOUNT_NAME;
+            name: '{{ env "RELOADER_SERVICE_ACCOUNT_NAME" | default "reloader" }}'
+
