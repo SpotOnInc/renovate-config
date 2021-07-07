@@ -232,9 +232,9 @@ releases:
         updateStrategy: RollingUpdate
         # Add autodiscovery metrics from datadog
         podAnnotations:
-          ad.datadoghq.com/kiam-agent.check_names: '["openmetrics"]'
-          ad.datadoghq.com/kiam-agent.init_configs: '[{}]'
-          ad.datadoghq.com/kiam-agent.instances: '[{"prometheus_url":"http://%%host%%:9620/metrics","namespace":"kiam","metrics":["*"]}]'
+          ad.datadoghq.com/kiam-server.check_names: '["openmetrics"]'
+          ad.datadoghq.com/kiam-server.init_configs: '[{}]'
+          ad.datadoghq.com/kiam-server.instances: '[{"prometheus_url":"http://%%host%%:9620/metrics","namespace":"kiam","metrics":["*"]}]'
 
 - name: 'kiam-prometheus'
   namespace: kube-system
