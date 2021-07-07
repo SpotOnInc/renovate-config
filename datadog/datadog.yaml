@@ -68,6 +68,10 @@ releases:
                 bearer_token_auth: true
                 tags:
                 - apiserver:%%host%%
+            # Enable/disable check to spoton domains from agent (only on DATA for now)
+            {{- if eq (env "DATADOG_CHECK_TLS_DOMAINS" | default "false") "true" }}
+              {{ readFile "spoton_datadog_tls_conf.yaml" | nindent 12  }}
+            {{- end }}
           {{- end }}
         agents:
           image:
