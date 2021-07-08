@@ -36,11 +36,12 @@ releases:
       - fullnameOverride: "reloader"
         reloader:
           deployment:
-            # Add autodiscovery metrics from datadog
-            annotations:
-              ad.datadoghq.com/reloader.check_names: '["openmetrics"]'
-              ad.datadoghq.com/reloader.init_configs: '[{}]'
-              ad.datadoghq.com/reloader.instances: '[{"prometheus_url":"http://%%host%%:9090/metrics","namespace":"reloader","metrics":["*"]}]'
+            pod:
+              # Add autodiscovery metrics from datadog
+              annotations:
+                ad.datadoghq.com/reloader.check_names: '["openmetrics"]'
+                ad.datadoghq.com/reloader.init_configs: '[{}]'
+                ad.datadoghq.com/reloader.instances: '[{"prometheus_url":"http://%%host%%:9090/metrics","namespace":"reloader","metrics":["*"]}]'
           rbac:
             ### Optional: RBAC_ENABLED;
             enabled: {{ env "RBAC_ENABLED" | default "false" }}
