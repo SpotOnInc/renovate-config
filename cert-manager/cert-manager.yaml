@@ -88,9 +88,9 @@ releases:
         ### Required: EXTERNAL_DNS_IAM_ROLE; e.g. cp-staging-external-dns
         iam.amazonaws.com/role: '{{ env "CERT_MANAGER_IAM_ROLE" }}'
         # DD autodiscovery annotations
-        ad.datadoghq.com/spoton-cm.check_names: '["cert_manager"]'
-        ad.datadoghq.com/spoton-cm.init_configs: '[{}]'
-        ad.datadoghq.com/spoton-cm.instances: '[{"prometheus_url":"http://%%host%%:9402/metrics"]'
+        ad.datadoghq.com/cert-manager.check_names: '["cert_manager"]'
+        ad.datadoghq.com/cert-manager.init_configs: '[{}]'
+        ad.datadoghq.com/cert-manager.instances: '[{"prometheus_url":"http://%%host%%:9402/metrics"}]'
       {{- end }}
 
       ingressShim:
