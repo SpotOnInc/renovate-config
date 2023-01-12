@@ -11,6 +11,7 @@
     ]
   },
   "pre-commit": {
+    "description": "In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/",
     "enabled": true
   }
 }
