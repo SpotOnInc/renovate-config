@@ -27,13 +27,13 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
     }
     ```
 
-3. (Optional) We recommend moving the config to `.github/renovate.json5`.
-
+Go to step 3. below.
 
 </details>
 
 Otherwise:
 
+0. If the repo is too much outdated - prefer to update manually as much as you can before merge Renovate init PR.
 1. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask Github org administrators.
 2. Renovate will create [init PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for new repo - open it and check that it has:
 
@@ -48,6 +48,8 @@ Otherwise:
 
 3. (Optional) We recommend moving the config to `.github/renovate.json5`.
 
+4. Merge PR and relax.  
+   Renovate will create PRs based on provided schedules.  By default - you will see Renovate PRs on Mondays.
 
 ## Useful links
 
