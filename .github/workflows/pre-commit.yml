@@ -1,0 +1,39 @@
+name: Common issues check
+
+on: [pull_request]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+    - name: Get changed files
+      id: file_changes
+      run: |
+        export DIFF=$(git diff --name-only origin/${{ github.base_ref }} ${{ github.sha }})
+        echo "Diff between ${{ github.base_ref }} and ${{ github.sha }}"
+        echo "files=$( echo "$DIFF" | xargs echo )" >> $GITHUB_OUTPUT
+
+    - name: Execute pre-commit
+      uses: pre-commit/action@v3.0.0
+      env:
+        SKIP: no-commit-to-branch
+      with:
+        extra_args: --color=always --show-diff-on-failure --files ${{ steps.file_changes.outputs.files }}
+      # Need to trigger pre-commit workflow on autofix commit.
+      # Native pre-commit action fix by `token` not works in this case.
+    - name: Push fixes
+      if: failure()
+      uses: EndBug/add-and-commit@v9
+      with:
+        # Determines the way the action fills missing author name and email. Three options are available:
+        # - github_actor -> UserName <UserName@users.noreply.github.com>
+        # - user_info -> Your Display Name <your-actual@email.com>
+        # - github_actions -> github-actions <email associated with the github logo>
+        # Default: github_actor
+        default_author: github_actor
+        # The message for the commit.
+        # Default: 'Commit from GitHub Actions (name of the workflow)'
+        message: '[pre-commit] Autofix violations'

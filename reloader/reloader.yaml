@@ -50,4 +50,3 @@ releases:
             create: {{ env "RBAC_ENABLED" | default "false" }}
             ### Optional: RELOADER_SERVICE_ACCOUNT_NAME;
             name: '{{ env "RELOADER_SERVICE_ACCOUNT_NAME" | default "reloader" }}'
-

@@ -43,7 +43,6 @@ releases:
   # when true, cleans up any new resources created during a failed release (default false)
   cleanupOnFail: true
 
-  # 
   hooks:
   - events: ["presync"]
     showlogs: true
