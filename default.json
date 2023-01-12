@@ -2,6 +2,9 @@
   "extends": [
     "config:base"
   ],
+  "schedule": [
+    "after 4am on monday"
+  ],
   "labels": [
     "auto-update"
   ],
