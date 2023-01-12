@@ -10,9 +10,7 @@
       "**/context.tf"
     ]
   },
-  // In beta. Details - https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
     "enabled": true
   }
-
 }
