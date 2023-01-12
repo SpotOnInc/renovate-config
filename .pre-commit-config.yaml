@@ -1,0 +1,57 @@
+# Run `pre-commit autoupdate` to update hooks to latest version
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      # Git style
+      - id: check-added-large-files # prevents giant files from being committed.
+      - id: check-vcs-permalinks # ensures that links to vcs websites are permalinks.
+      - id: forbid-new-submodules # prevents addition of new git submodules.
+      - id: no-commit-to-branch # don't commit to branch
+
+      # Common errors
+      - id: trailing-whitespace # trims trailing whitespace.
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline.
+      - id: check-merge-conflict # checks for files that contain merge conflict strings.
+      - id: check-executables-have-shebangs # ensures that (non-binary) executables have a shebang.
+
+      # Cross platform
+      - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems.
+      - id: mixed-line-ending # replaces or checks mixed line ending.
+        args: [--fix=lf]
+
+      # Security
+      - id: detect-aws-credentials # detects *your* aws credentials from the aws cli credentials file.
+        args: ["--allow-missing-credentials"]
+      - id: detect-private-key # detects the presence of private keys.
+
+      # Python
+      - id: check-ast # simply checks whether the files parse as valid python.
+      - id: check-builtin-literals # requires literal syntax when initializing empty or zero python builtin types.
+      - id: check-docstring-first # checks a common error of defining a docstring after code.
+      - id: debug-statements # checks for debugger imports and py37+ `breakpoint()` calls in python source.
+
+      # JSON
+      - id: check-json # checks json files for parseable syntax.
+      - id: pretty-format-json # sets a standard for formatting json files.
+        args: [--autofix, --no-sort-keys]
+      - id: pretty-format-json # sets a standard for formatting .tf.json files.
+        args: [--autofix]
+        files: .tf.json$
+
+      # Symlinks
+      - id: check-symlinks # checks for symlinks which do not point to anything.
+      - id: destroyed-symlinks # detects symlinks which are changed to regular files with a content of a path which that symlink was pointing to.
+
+      # XML
+      - id: check-xml # checks xml files for parseable syntax.
+      # YAML
+      - id: check-yaml # checks yaml files for parseable syntax.
+        exclude: ^(cert-manager/|datadog/|external-dns/|kiam/|prometheus/|reloader/)
+
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 34.100.1
+    hooks:
+      - id: renovate-config-validator
