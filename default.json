@@ -4,8 +4,10 @@
     "config:base",
     "group:linters",
     "helpers:pinGitHubActionDigests",
+    "preview:dockerVersions",
     "docker:enableMajor",
     "docker:pinDigests",
+    "preview:dockerCompose",
     ":separateMultipleMajorReleases",
     ":ignoreUnstable",
     ":semanticCommits",
@@ -15,7 +17,7 @@
   ],
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": "auto-update",
-  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)"
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
   "schedule_description": "Limit branch creation to these times of day or week.",
   "schedule_docs": "https://docs.renovatebot.com/configuration-options/#schedule",
   "schedule": [
@@ -32,6 +34,12 @@
   "addLabels": [
     "auto-update"
   ],
+  "configMigration_desription": "Sometimes you need to change your Renovate configuration. To help you with this, Renovate will create config migration pull requests.",
+  "configMigration_docs": "https://docs.renovatebot.com/configuration-options/#configmigration",
+  "configMigration": true,
+  "prCreation_description": "Renovate will wait until status checks have completed (passed or failed) before raising the PR.",
+  "prCreation_docs": "https://docs.renovatebot.com/configuration-options/#prcreation",
+  "prCreation": "not-pending",
   "vulnerabilityAlerts": {
     "description": "Be sure that Dependabot alerts are enabled for repo.",
     "docs": "https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",

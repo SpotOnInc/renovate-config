@@ -62,6 +62,9 @@ Otherwise:
     * [Contributing to presets](https://docs.renovatebot.com/config-presets/#contributing-to-presets)
     * [Preset Versioning](https://docs.renovatebot.com/config-presets/#github)
 
+* [Managers: Supported, configuration, disabling, etc.](https://docs.renovatebot.com/modules/manager/)
+
+
 * [Renovate App on GitHub Secrets Encryption](https://docs.renovatebot.com/getting-started/private-packages/#mend-renovate-hosted-app-encryption)
 
 * [Known limitations](https://docs.renovatebot.com/known-limitations/)  
@@ -92,6 +95,8 @@ Otherwise:
   More details [here](https://docs.renovatebot.com/faq/#separate-patch-releases-from-minor-releases)
 * [Group all packages starting with `abc` together in one PR](https://docs.renovatebot.com/faq/#group-all-packages-starting-with-abc-together-in-one-pr)
 * [:pinVersions](https://docs.renovatebot.com/presets-default/#pinversions) - maintain a single version only and not SemVer ranges
+* [:rebaseStalePrs](https://docs.renovatebot.com/presets-default/#rebasestaleprs) - Rebase existing PRs any time the base branch has been updated.
+
 
 ## Troubleshoting
 
