@@ -60,6 +60,7 @@ Otherwise:
     * [Organization level presets](https://docs.renovatebot.com/config-presets/#organization-level-presets) -  `myorg/renovate-config/default.json` magic name
     * [GitHub-hosted Presets](https://docs.renovatebot.com/config-presets/#github-hosted-presets)
     * [Contributing to presets](https://docs.renovatebot.com/config-presets/#contributing-to-presets)
+    * [Preset Versioning](https://docs.renovatebot.com/config-presets/#github)
 
 * [Renovate App on GitHub Secrets Encryption](https://docs.renovatebot.com/getting-started/private-packages/#mend-renovate-hosted-app-encryption)
 
@@ -73,6 +74,7 @@ Otherwise:
 
 * [Docker Registries authentication](https://docs.renovatebot.com/docker/#registry-authentication)
 
+
 ### Repos configuration
 
 * [Configuration location](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location)
@@ -83,10 +85,13 @@ Otherwise:
     * [Schedule Presets](https://docs.renovatebot.com/presets-schedule/)
 
 * [Changing the Semantic Commit type](https://docs.renovatebot.com/semantic-commits/#changing-the-semantic-commit-type)
+* [How edit branch names, commit messages, PR titles and PR content](https://docs.renovatebot.com/configuration-templates/)
+
 * [Docker Digest pinning and Updating](https://docs.renovatebot.com/docker/#digest-pinning)
 * [Separate `patch` and `minor` releases of dependencies into separate PRs](https://docs.renovatebot.com/presets-default/#separatepatchreleases).  
   More details [here](https://docs.renovatebot.com/faq/#separate-patch-releases-from-minor-releases)
 * [Group all packages starting with `abc` together in one PR](https://docs.renovatebot.com/faq/#group-all-packages-starting-with-abc-together-in-one-pr)
+* [:pinVersions](https://docs.renovatebot.com/presets-default/#pinversions) - maintain a single version only and not SemVer ranges
 
 ## Troubleshoting
 
