@@ -6,8 +6,8 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
 * [Usage](#usage)
 * [Useful links](#useful-links)
   * [Renovate App and presets configuration](#renovate-app-and-presets-configuration)
-* [Repos configuration](#repos-configuration)
-  * [Troubleshoting](#troubleshoting)
+  * [Repos configuration](#repos-configuration)
+* [Troubleshoting](#troubleshoting)
 
 
 ## Usage
@@ -66,19 +66,29 @@ Otherwise:
 * [Known limitations](https://docs.renovatebot.com/known-limitations/)  
   Ie: GitHub hosted app Mend checks each active repository roughly every three hours, if no activity has been seen before then (merged PRs, etc).
 
+  * [No rebasing if you have made edits](https://docs.renovatebot.com/updating-rebasing/#no-rebasing-if-you-have-made-edits) (conflicting with pre-commit autofixes)
+
 * [onboardingConfigFileName](https://docs.renovatebot.com/self-hosted-configuration/#onboardingconfigfilename) (self-hosted only).  
   Useful to change onboarding renovate config file location.
 
-## Repos configuration
+* [Docker Registries authentication](https://docs.renovatebot.com/docker/#registry-authentication)
+
+### Repos configuration
 
 * [Configuration location](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location)
 
 * [Overriding global configs](https://docs.renovatebot.com/key-concepts/automerge/#overriding-global-automerge)
 
 * [Scheduling syntax](https://docs.renovatebot.com/key-concepts/scheduling/#scheduling-syntax)
+    * [Schedule Presets](https://docs.renovatebot.com/presets-schedule/)
 
+* [Changing the Semantic Commit type](https://docs.renovatebot.com/semantic-commits/#changing-the-semantic-commit-type)
+* [Docker Digest pinning and Updating](https://docs.renovatebot.com/docker/#digest-pinning)
+* [Separate `patch` and `minor` releases of dependencies into separate PRs](https://docs.renovatebot.com/presets-default/#separatepatchreleases).  
+  More details [here](https://docs.renovatebot.com/faq/#separate-patch-releases-from-minor-releases)
+* [Group all packages starting with `abc` together in one PR](https://docs.renovatebot.com/faq/#group-all-packages-starting-with-abc-together-in-one-pr)
 
-### Troubleshoting
+## Troubleshoting
 
 * [Troubleshooting docs](https://docs.renovatebot.com/troubleshooting/)
 * [Renovate dashboard](https://app.renovatebot.com/dashboard)
