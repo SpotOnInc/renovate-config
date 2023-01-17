@@ -1,6 +1,5 @@
 # renovate-config
 
-
 This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/) for SpotOn. It contains wide-use [Renovatebot](https://github.com/renovatebot/renovate) configs, based on our toolset and mindset.
 
 * [Usage](#usage)
@@ -9,7 +8,6 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
   * [Renovate App and presets configuration](#renovate-app-and-presets-configuration)
   * [Repos configuration](#repos-configuration)
 * [Troubleshooting](#troubleshooting)
-
 
 ## Usage
 
@@ -61,6 +59,9 @@ To change the default config, please edit [`default.template.json5`](default.tem
 
 That needs to describe what settings do and save `renovate-config/default.json` name magic which [is not present for `.json5`](https://github.com/renovatebot/renovate/issues/15370#issuecomment-1113137651).
 
+---
+
+In case when new `default.json` config does not apply more than 6 hours - create test repo and copy-paste the whole `default.json`, but rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
 
 ## Useful links
 
@@ -109,6 +110,7 @@ That needs to describe what settings do and save `renovate-config/default.json` 
 * [Group all packages starting with `abc` together in one PR](https://docs.renovatebot.com/faq/#group-all-packages-starting-with-abc-together-in-one-pr)
 * [:pinVersions](https://docs.renovatebot.com/presets-default/#pinversions) - maintain a single version only and not SemVer ranges
 * [:rebaseStalePrs](https://docs.renovatebot.com/presets-default/#rebasestaleprs) - Rebase existing PRs any time the base branch has been updated.
+* [Update package/GHA references in Markdown files](https://github.com/renovatebot/.github/blob/d9b3c1914f4bf9dbecc6456610ca89530260572f/default.json#L121-L140)
 
 
 ## Troubleshooting

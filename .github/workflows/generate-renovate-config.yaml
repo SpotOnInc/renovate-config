@@ -46,4 +46,4 @@ jobs:
         default_author: github_actor
         # The message for the commit.
         # Default: 'Commit from GitHub Actions (name of the workflow)'
-        message: '[Auto] Regenerate default.json'
+        message: 'chore: Regenerate default.json'

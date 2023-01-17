@@ -25,7 +25,7 @@
     // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersdockerfileversions
     "regexManagers:dockerfileVersions",
     // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersgithubactionsversions
-    "regexManagers:githubActionsVersions"
+    "regexManagers:githubActionsVersions",
   ],
 
   // Dependency Dashboard issue customization.                                | https://docs.renovatebot.com/configuration-options/#dependencydashboard
@@ -41,7 +41,7 @@
   "rollbackPrs": true,
   // All matched addLabels strings will be attached to the PR.                | https://docs.renovatebot.com/configuration-options/#addlabels
   "addLabels": [
-    "auto-update"
+    "auto-update",
   ],
   // Sometimes you need to change your Renovate configuration.
   // To help with this, Renovate will create config migration pull requests.  | https://docs.renovatebot.com/configuration-options/#configmigration
@@ -54,16 +54,30 @@
     "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
     "enabled": true,
     // Append `security` label.
-    "addLabels": ["security"]
+    "addLabels": ["security"],
   },
-
+  // Terraform manager custom settings                                        | https://docs.renovatebot.com/modules/manager/terraform/
   "terraform": {
     "ignorePaths": [
-      "**/context.tf" // Cloud Posse managed
-    ]
+      "**/context.tf", // Cloud Posse managed
+    ],
+    "pinDigests": true, // Make versions idempotent
   },
   // In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    // Maybe useful. Get it from https://github.com/renovatebot/.github/blob/d9b3c1914f4bf9dbecc6456610ca89530260572f/default.json#L39-L44
+    {
+      "description": "v prefix workaround for action updates",
+      "matchDepTypes": ["action"],
+      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
+      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    },
+  ],
+  // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  },
 }
