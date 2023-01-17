@@ -2,11 +2,8 @@ name: Release
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'default.json'
+  repository_dispatch:
+    types: [trigger-release]
 
 jobs:
   release:

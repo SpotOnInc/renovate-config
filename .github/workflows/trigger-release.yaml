@@ -1,0 +1,16 @@
+name: Trigger Release more than 30 days no releases
+
+on:
+  schedule:
+    # Every Monday at 04:00
+    - cron: '0 4 * * 1'
+
+jobs:
+  trigger-check:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          event-type: trigger-release
