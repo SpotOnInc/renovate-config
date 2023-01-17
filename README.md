@@ -1,6 +1,6 @@
 # renovate-config
 
-This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/) for SpotOn. It contains wide-use [Renovatebot](https://github.com/renovatebot/renovate) configs, based on our toolset and mindset.
+These are [Shareable Config Presets](https://docs.renovatebot.com/config-presets/) for SpotOn. It contains wide-use [Renovatebot](https://github.com/renovatebot/renovate) configs, based on our toolset and mindset.
 
 * [Usage](#usage)
 * [Development notes](#development-notes)
@@ -13,9 +13,9 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
 ## Usage
 
 <!-- markdownlint-disable-next-line no-inline-html -->
-<details><summary><u>If Renovate has already been activated for repo</u></summary>
+<details><summary>If Renovate has already been activated for repo</summary>
 
-1. Check for `renovate.json` in [possible locations](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location).
+1. Check to see if you have a `renovate.json` already. It can be in any of these [possible locations](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location).
 2. Change `renovate` config to:
 
     ```json5
@@ -27,15 +27,17 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
     }
     ```
 
-Go to step 3. below.
+After that, skip to step 3 below.
 <!-- markdownlint-disable-next-line no-inline-html -->
 </details>
 
+---
+
 Otherwise:
 
-0. If the repo is too much outdated - prefer to update manually as much as you can before merging Renovate init PR.
-1. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask Github org administrators.
-2. Renovate will create [init [PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
+0. Manually update as much as you can before moving forward. You will have the best experience with Renovate if you start with a fully-updated repo.
+1. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask your GitHub org administrators to enable it.
+2. Renovate will create an [init PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
 
     ```json5
     {
@@ -48,21 +50,17 @@ Otherwise:
 
 3. (Optional) We recommend moving the config to `.github/renovate.json5`.
 4. Be sure that the `Dependency graph` and `Dependabot alerts` are enabled for the repo. [Details](https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts).
-
-5. Merge PR and relax.  
-   Renovate will create PRs based on provided schedules.  By default - you will see Renovate PRs on Mondays.
+5. Merge PR and relax. Renovate will create PRs based on provided schedules. By default, you will see Renovate PRs on Mondays.
 
 ## Development notes
 
-To change the default config, please edit [`default.template.json5`](default.template.json5) and create PR.
-
-`default.json` will be automatically [generated and added](.github/workflows/generate-renovate-config.yaml) after your PR will be merged.
-
-That needs to describe what settings do and save `renovate-config/default.json` name magic which [is not present for `.json5`](https://github.com/renovatebot/renovate/issues/15370#issuecomment-1113137651).
+To change the default config, edit [`default.template.json5`](default.template.json5) and create a PR. The matching `default.json` will be automatically [generated and added](.github/workflows/generate-renovate-config.yaml) after your PR is merged.
 
 ---
 
-In case when new `default.json` config does not apply more than 6 hours - create test repo and copy-paste the whole `default.json`, but rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
+### Note:
+
+If your new `default.json` config does not apply for more than 6 hours, create test repo and copy-paste the whole `default.json` over and rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
 
 ### New Releases
 
@@ -74,7 +72,7 @@ If there are no releases for more than 30 days and in `main` present something t
 
 * [How Renovate find/create/update PRs](https://docs.renovatebot.com/key-concepts/pull-requests/)  
   TL;DR: Renovatebot checks branch names and PR titles. If PR is not found to match the branch - Renovatebot will create a new PR.  
-  To recreate closed PR - just rename closed PR.
+  To recreate a closed PR, rename the closed PR.
 
 ### Renovate App and presets configuration
 
@@ -90,7 +88,7 @@ If there are no releases for more than 30 days and in `main` present something t
 * [Renovate App on GitHub Secrets Encryption](https://docs.renovatebot.com/getting-started/private-packages/#mend-renovate-hosted-app-encryption)
 
 * [Known limitations](https://docs.renovatebot.com/known-limitations/)  
-  Ie: GitHub hosted app Mend checks each active repository roughly every three hours, if no activity has been seen before then (merged PRs, etc).
+  Example: GitHub hosted app Mend checks each active repository roughly every three hours, if no activity has been seen before then (merged PRs, etc).
 
   * [No rebasing if you have made edits](https://docs.renovatebot.com/updating-rebasing/#no-rebasing-if-you-have-made-edits) (conflicting with pre-commit auto-fixes)
 
