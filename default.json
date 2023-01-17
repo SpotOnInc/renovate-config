@@ -1,5 +1,5 @@
 {
-  "extends_docs": "https://docs.renovatebot.com/presets-config/#configbase",
+  "description": "THIS FILE IF GENERATED FROM default.template.json5",
   "extends": [
     "config:base",
     "group:linters",
@@ -15,34 +15,21 @@
     "regexManagers:dockerfileVersions",
     "regexManagers:githubActionsVersions"
   ],
+  "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
   "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
-  "schedule_description": "Limit branch creation to these times of day or week.",
-  "schedule_docs": "https://docs.renovatebot.com/configuration-options/#schedule",
   "schedule": [
     "after 4am on monday"
   ],
-  "stabilityDays_description": "Wait at least 3 days to possible fixes before create PR.",
-  "stabilityDays_docs": "https://docs.renovatebot.com/configuration-options/#stabilitydays",
   "stabilityDays": 3,
-  "rollbackPrs_description": "Create PRs to roll back versions if the current version is not found in the registry.",
-  "rollbackPrs_docs": "https://docs.renovatebot.com/configuration-options/#rollbackprs",
   "rollbackPrs": true,
-  "addLabels_description": "All matched addLabels strings will be attached to the PR.",
-  "addLabels_docs": "https://docs.renovatebot.com/configuration-options/#addlabels",
   "addLabels": [
     "auto-update"
   ],
-  "configMigration_desription": "Sometimes you need to change your Renovate configuration. To help you with this, Renovate will create config migration pull requests.",
-  "configMigration_docs": "https://docs.renovatebot.com/configuration-options/#configmigration",
   "configMigration": true,
-  "prCreation_description": "Renovate will wait until status checks have completed (passed or failed) before raising the PR.",
-  "prCreation_docs": "https://docs.renovatebot.com/configuration-options/#prcreation",
   "prCreation": "not-pending",
   "vulnerabilityAlerts": {
-    "description": "Be sure that Dependabot alerts are enabled for repo.",
-    "docs": "https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
     "addLabels": [
       "security"
     ],
