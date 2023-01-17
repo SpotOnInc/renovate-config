@@ -1,61 +1,69 @@
 {
   "extends": [
+    // Default base configuration for all languages.
     // https://docs.renovatebot.com/presets-config/#configbase
     "config:base",
+    // Group various lint packages together.                                  | https://docs.renovatebot.com/presets-group/#grouplinters
     "group:linters",
+    // Pin GitHub Action digests.                                             | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
     "helpers:pinGitHubActionDigests",
+    // Upgrade Minor and Major Docker tags to newer versions.                 | https://docs.renovatebot.com/presets-preview/#previewdockerversions
     "preview:dockerVersions",
-    "docker:enableMajor",
+    // Pin Docker digests.                                                    | https://docs.renovatebot.com/presets-docker/#dockerpindigests
     "docker:pinDigests",
+    // Enable Docker Compose image updating.                                  | https://docs.renovatebot.com/presets-preview/#previewdockercompose
     "preview:dockerCompose",
+    // Separate each Major version of dependencies into individual PRs.       | https://docs.renovatebot.com/presets-default/#separatemultiplemajorreleases
     ":separateMultipleMajorReleases",
+    // Upgrade to unstable versions only if the existing version is unstable. | https://docs.renovatebot.com/presets-default/#ignoreunstable
     ":ignoreUnstable",
+    // Use semantic prefixes for commit messages and PR titles.               | https://docs.renovatebot.com/presets-default/#semanticcommits
     ":semanticCommits",
+    // If Renovate detects semantic commits, it will use semantic
+    // commit type `fix` for dependencies and `chore` for all others.         | https://docs.renovatebot.com/presets-default/#semanticprefixfixdepschoreothers
     ":semanticPrefixFixDepsChoreOthers",
+    // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersdockerfileversions
     "regexManagers:dockerfileVersions",
+    // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersgithubactionsversions
     "regexManagers:githubActionsVersions"
   ],
-  "dependencyDashboard": true,
+
+  // Dependency Dashboard issue customization.                                | https://docs.renovatebot.com/configuration-options/#dependencydashboard
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
-  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
-  // Limit branch creation to these times of day or week.
-  // https://docs.renovatebot.com/configuration-options/#schedule
-  "schedule": [
-    "after 4am on monday"
-  ],
-  // Wait at least 3 days to possible fixes before create PR.
-  // https://docs.renovatebot.com/configuration-options/#stabilitydays
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.  Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
+  // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
+  "schedule": ["after 4am on monday"],
+  // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#stabilitydays
   "stabilityDays": 3,
-  // Create PRs to roll back versions if the current version is not found in the registry.
-  // https://docs.renovatebot.com/configuration-options/#rollbackprs
+  // Create PRs to roll back versions
+  // if the current version is not found in the registry.                     | https://docs.renovatebot.com/configuration-options/#rollbackprs
   "rollbackPrs": true,
-  // All matched addLabels strings will be attached to the PR.
-  // https://docs.renovatebot.com/configuration-options/#addlabels
+  // All matched addLabels strings will be attached to the PR.                | https://docs.renovatebot.com/configuration-options/#addlabels
   "addLabels": [
     "auto-update"
   ],
-  // Sometimes you need to change your Renovate configuration. To help you with this, Renovate will create config migration pull requests.
-  // https://docs.renovatebot.com/configuration-options/#configmigration
+  // Sometimes you need to change your Renovate configuration.
+  // To help with this, Renovate will create config migration pull requests.  | https://docs.renovatebot.com/configuration-options/#configmigration
   "configMigration": true,
-  // Renovate will wait until status checks have completed (passed or failed) before raising the PR.",
-  // https://docs.renovatebot.com/configuration-options/#prcreation
+  // Renovate will wait until status checks have been completed
+  // (passed or failed) before raising the PR."                               | https://docs.renovatebot.com/configuration-options/#prcreation
   "prCreation": "not-pending",
-  // Be sure that Dependabot alerts are enabled for repo.
-  // https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts
+
   "vulnerabilityAlerts": {
-    "addLabels": [
-      "security"
-    ],
-    "enabled": true
+    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
+    "enabled": true,
+    // Append `security` label.
+    "addLabels": ["security"]
   },
+
   "terraform": {
     "ignorePaths": [
-      "**/context.tf"
+      "**/context.tf" // Cloud Posse managed
     ]
   },
+  // In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
-    "description": "In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/",
     "enabled": true
   }
 }
