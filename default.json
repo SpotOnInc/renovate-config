@@ -15,9 +15,8 @@
     "regexManagers:dockerfileVersions",
     "regexManagers:githubActionsVersions"
   ],
-  "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
-  "dependencyDashboardLabels": "auto-update",
+  "dependencyDashboardLabels": ["auto-update"],
   "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
   "schedule_description": "Limit branch creation to these times of day or week.",
   "schedule_docs": "https://docs.renovatebot.com/configuration-options/#schedule",
