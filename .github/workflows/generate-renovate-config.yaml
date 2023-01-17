@@ -24,7 +24,7 @@ jobs:
       run: |
         sed 's|\s* //.*||g' default.template.json5 \
           | sed -e '/^$/d' \
-          | sed -e 's/^{$/{\n  "description": "THIS FILE IF GENERATED FROM default.template.json5",/' \
+          | sed -e 's/^{$/{\n  "description": "THIS FILE IS GENERATED FROM default.template.json5",/' \
           > default.json
 
     # # Alternative solution, 3-times longer but without sed
