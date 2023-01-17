@@ -37,6 +37,7 @@ repos:
       - id: check-json # checks json files for parseable syntax.
       - id: pretty-format-json # sets a standard for formatting json files.
         args: [--autofix, --no-sort-keys]
+        exclude: default.json
 
       # Symlinks
       - id: check-symlinks # checks for symlinks which do not point to anything.
