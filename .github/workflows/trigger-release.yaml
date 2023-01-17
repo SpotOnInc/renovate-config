@@ -1,4 +1,4 @@
-name: Trigger Release more than 30 days no releases
+name: Trigger Release if more than 30 days no releases
 
 on:
   schedule:
