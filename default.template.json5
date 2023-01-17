@@ -1,0 +1,61 @@
+{
+  "extends": [
+    // https://docs.renovatebot.com/presets-config/#configbase
+    "config:base",
+    "group:linters",
+    "helpers:pinGitHubActionDigests",
+    "preview:dockerVersions",
+    "docker:enableMajor",
+    "docker:pinDigests",
+    "preview:dockerCompose",
+    ":separateMultipleMajorReleases",
+    ":ignoreUnstable",
+    ":semanticCommits",
+    ":semanticPrefixFixDepsChoreOthers",
+    "regexManagers:dockerfileVersions",
+    "regexManagers:githubActionsVersions"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dependency Dashboard",
+  "dependencyDashboardLabels": ["auto-update"],
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
+  // Limit branch creation to these times of day or week.
+  // https://docs.renovatebot.com/configuration-options/#schedule
+  "schedule": [
+    "after 4am on monday"
+  ],
+  // Wait at least 3 days to possible fixes before create PR.
+  // https://docs.renovatebot.com/configuration-options/#stabilitydays
+  "stabilityDays": 3,
+  // Create PRs to roll back versions if the current version is not found in the registry.
+  // https://docs.renovatebot.com/configuration-options/#rollbackprs
+  "rollbackPrs": true,
+  // All matched addLabels strings will be attached to the PR.
+  // https://docs.renovatebot.com/configuration-options/#addlabels
+  "addLabels": [
+    "auto-update"
+  ],
+  "configMigration_desription": "Sometimes you need to change your Renovate configuration. To help you with this, Renovate will create config migration pull requests.",
+  "configMigration_docs": "https://docs.renovatebot.com/configuration-options/#configmigration",
+  "configMigration": true,
+  // Renovate will wait until status checks have completed (passed or failed) before raising the PR.",
+  // https://docs.renovatebot.com/configuration-options/#prcreation
+  "prCreation": "not-pending",
+  // Be sure that Dependabot alerts are enabled for repo.
+  // https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts
+  "vulnerabilityAlerts": {
+    "addLabels": [
+      "security"
+    ],
+    "enabled": true
+  },
+  "terraform": {
+    "ignorePaths": [
+      "**/context.tf"
+    ]
+  },
+  "pre-commit": {
+    "description": "In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/",
+    "enabled": true
+  }
+}
