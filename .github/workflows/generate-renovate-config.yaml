@@ -1,13 +1,14 @@
-name: Convert JSON5 to JSON
+name: Convert Template to JSON
 
+# No possibility to use on.workflow_run.workflows[Common issues check]  inside PR
+# because GHA sucks - https://github.com/orgs/community/discussions/25220\
 on:
-  workflow_run:
-    workflows: [Common issues check]
-    types:
-      - completed
+  push:
+    branches:
+    - main
 
 jobs:
-  renovate-default:
+  generate-renovate-config:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
