@@ -4,6 +4,7 @@ This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/)
 
 * [Usage](#usage)
 * [Development notes](#development-notes)
+  * [New Releases](#new-releases)
 * [Useful links](#useful-links)
   * [Renovate App and presets configuration](#renovate-app-and-presets-configuration)
   * [Repos configuration](#repos-configuration)
@@ -62,6 +63,12 @@ That needs to describe what settings do and save `renovate-config/default.json` 
 ---
 
 In case when new `default.json` config does not apply more than 6 hours - create test repo and copy-paste the whole `default.json`, but rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
+
+### New Releases
+
+To create a new release, go [here](https://github.com/SpotOnInc/renovate-config/actions/workflows/release.yaml).
+
+If there are no releases for more than 30 days and in `main` present something that is ready to be released - the release will be [automatically triggered](.github/workflows/trigger-release.yaml).
 
 ## Useful links
 
