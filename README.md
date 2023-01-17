@@ -12,7 +12,7 @@ These are [Shareable Config Presets](https://docs.renovatebot.com/config-presets
 ## Usage
 
 <!-- markdownlint-disable-next-line no-inline-html -->
-<details><summary>If Renovate has already been activated for repo:</summary>
+<details><summary><u>If Renovate has already been activated for repo</u></summary>
 
 1. Check to see if you have a `renovate.json` already. It can be in any of these [possible locations](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location).
 2. Change `renovate` config to:
@@ -36,7 +36,7 @@ Otherwise:
 
 0. Manually update as much as you can before moving forward. You will have the best experience with Renovate if you start with a fully-updated repo.
 1. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask your GitHub org administrators to enable it.
-2. Renovate will create an [init [PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
+2. Renovate will create an [init PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
 
     ```json5
     {
