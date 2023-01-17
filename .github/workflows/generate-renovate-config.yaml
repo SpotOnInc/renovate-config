@@ -3,9 +3,12 @@ name: Convert Template to JSON
 # No possibility to use on.workflow_run.workflows[Common issues check] inside PR
 # because GHA sucks - https://github.com/orgs/community/discussions/25220\
 on:
+  workflow_dispatch:
   push:
     branches:
-    - main
+      - main
+    paths:
+      - 'default.template.json5'
 
 jobs:
   generate-renovate-config:
