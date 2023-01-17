@@ -12,7 +12,7 @@
     ":semanticCommits",
     ":semanticPrefixFixDepsChoreOthers",
     "regexManagers:dockerfileVersions",
-    "regexManagers:githubActionsVersions"
+    "regexManagers:githubActionsVersions",
   ],
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
@@ -21,21 +21,33 @@
   "stabilityDays": 3,
   "rollbackPrs": true,
   "addLabels": [
-    "auto-update"
+    "auto-update",
   ],
   "configMigration": true,
   "prCreation": "not-pending",
   "vulnerabilityAlerts": {
     "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
     "enabled": true,
-    "addLabels": ["security"]
+    "addLabels": ["security"],
   },
   "terraform": {
     "ignorePaths": [
-      "**/context.tf"
-    ]
+      "**/context.tf",
+    ],
+    "pinDigests": true,
   },
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "description": "v prefix workaround for action updates",
+      "matchDepTypes": ["action"],
+      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
+      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    },
+  ],
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  },
 }
