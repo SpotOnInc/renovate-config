@@ -48,8 +48,9 @@ Otherwise:
     ```
 
 3. (Optional) We recommend moving the config to `.github/renovate.json5`.
+4. Be sure that the `Dependency graph` and `Dependabot alerts` are enabled for the repo. [Details](https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts).
 
-4. Merge PR and relax.  
+5. Merge PR and relax.  
    Renovate will create PRs based on provided schedules.  By default - you will see Renovate PRs on Mondays.
 
 ## Development notes
