@@ -1,0 +1,49 @@
+name: Convert Template to JSON
+
+# No possibility to use on.workflow_run.workflows[Common issues check] inside PR
+# because GHA sucks - https://github.com/orgs/community/discussions/25220\
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  generate-renovate-config:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Update default.json
+      id: update_json
+      run: |
+        sed 's|\s* //.*||g' default.template.json5 \
+          | sed -e '/^$/d' \
+          | sed -e 's/^{$/{\n  "description": "THIS FILE IF GENERATED FROM default.template.json5",/' \
+          > default.json
+
+    # # Alternative solution, 3-times longer but without sed
+    # - uses: actions-rs/toolchain@v1
+    #   with:
+    #     toolchain: stable
+    # - run: cargo install json5-to-json
+
+    # - name: Generate default.json
+    #   id: generate_json
+    #   run: |
+    #     cat default.template.json5 | json5-to-json > default.json
+
+    - name: Push fixes
+      uses: EndBug/add-and-commit@v9
+      with:
+        # Determines the way the action fills missing author name and email. Three options are available:
+        # - github_actor -> UserName <UserName@users.noreply.github.com>
+        # - user_info -> Your Display Name <your-actual@email.com>
+        # - github_actions -> github-actions <email associated with the github logo>
+        # Default: github_actor
+        default_author: github_actor
+        # The message for the commit.
+        # Default: 'Commit from GitHub Actions (name of the workflow)'
+        message: '[Auto] Regenerate default.json'

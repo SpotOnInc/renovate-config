@@ -16,6 +16,18 @@ jobs:
         echo "Diff between ${{ github.base_ref }} and ${{ github.sha }}"
         echo "files=$( echo "$DIFF" | xargs echo )" >> $GITHUB_OUTPUT
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    # Need to success pre-commit fix push
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        # Need to trigger pre-commit workflow on autofix commit
+        # Guide: https://web.archive.org/web/20210731173012/https://github.community/t/required-check-is-expected-after-automated-push/187545/
+        ssh-key: "${{ secrets.GHA_AUTOFIX_COMMIT_KEY }}"
+
     - name: Execute pre-commit
       uses: pre-commit/action@v3.0.0
       env:

@@ -4,6 +4,7 @@
 This is [Shareable Config Presets](https://docs.renovatebot.com/config-presets/) for SpotOn. It contains wide use [Renovatebot](https://github.com/renovatebot/renovate) configs, based on our toolset and mindset.
 
 * [Usage](#usage)
+* [Development notes](#development-notes)
 * [Useful links](#useful-links)
   * [Renovate App and presets configuration](#renovate-app-and-presets-configuration)
   * [Repos configuration](#repos-configuration)
@@ -50,6 +51,15 @@ Otherwise:
 
 4. Merge PR and relax.  
    Renovate will create PRs based on provided schedules.  By default - you will see Renovate PRs on Mondays.
+
+## Development notes
+
+To change default config, please edit `default.template.json5` and create PR.
+
+`default.json` will be automatically [generated and added](.github/workflows/generate-default.json.yaml) to your PR.
+
+That needs to describe what settings do and save `renovate-config/default.json` name magic which [not present for `.json5`](https://github.com/renovatebot/renovate/issues/15370#issuecomment-1113137651).
+
 
 ## Useful links
 
