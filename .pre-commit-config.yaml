@@ -58,3 +58,11 @@ repos:
     hooks:
       - id: renovate-config-validator
         files: default.template.json5
+
+  - repo: local
+    hooks:
+    - id: renovate-gha-automation
+      name: Prevent update manually default.json
+      entry: bash -c 'echo "You should edit ./default.template.json5, not ./default.json"; exit 1'
+      files: default.json
+      language: system

@@ -54,14 +54,18 @@ Otherwise:
 
 ## Development notes
 
-To change default config, please edit `default.template.json5` and create PR.
+To change the default config, please edit [`default.template.json5`](default.template.json5) and create PR.
 
-`default.json` will be automatically [generated and added](.github/workflows/generate-default.json.yaml) to your PR.
+`default.json` will be automatically [generated and added](.github/workflows/generate-default.json.yaml) after your PR will be merged.
 
-That needs to describe what settings do and save `renovate-config/default.json` name magic which [not present for `.json5`](https://github.com/renovatebot/renovate/issues/15370#issuecomment-1113137651).
+That needs to describe what settings do and save `renovate-config/default.json` name magic which [is not present for `.json5`](https://github.com/renovatebot/renovate/issues/15370#issuecomment-1113137651).
 
 
 ## Useful links
+
+* [How Renovate find/create/update PRs](https://docs.renovatebot.com/key-concepts/pull-requests/)  
+  TL;DR: Renovate checks branch names and PR titles. If it not found match for branch - it will create a new PR.  
+  To recreate closed PR - just rename closed PR.
 
 ### Renovate App and presets configuration
 
