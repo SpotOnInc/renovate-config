@@ -12,7 +12,7 @@ These are [Shareable Config Presets](https://docs.renovatebot.com/config-presets
 ## Usage
 
 <!-- markdownlint-disable-next-line no-inline-html -->
-<details><summary><u>If Renovate has already been activated for repo</u></summary>
+<details><summary>If Renovate has already been activated for repo</summary>
 
 1. Check to see if you have a `renovate.json` already. It can be in any of these [possible locations](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location).
 2. Change `renovate` config to:
