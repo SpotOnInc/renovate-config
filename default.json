@@ -5,7 +5,6 @@
     "group:linters",
     "helpers:pinGitHubActionDigests",
     "preview:dockerVersions",
-    "docker:enableMajor",
     "docker:pinDigests",
     "preview:dockerCompose",
     ":separateMultipleMajorReleases",
@@ -15,13 +14,10 @@
     "regexManagers:dockerfileVersions",
     "regexManagers:githubActionsVersions"
   ],
-  "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
-  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br><br>Main configs and useful links located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
-  "schedule": [
-    "after 4am on monday"
-  ],
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.  Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config)",
+  "schedule": ["after 4am on monday"],
   "stabilityDays": 3,
   "rollbackPrs": true,
   "addLabels": [
@@ -30,10 +26,9 @@
   "configMigration": true,
   "prCreation": "not-pending",
   "vulnerabilityAlerts": {
-    "addLabels": [
-      "security"
-    ],
-    "enabled": true
+    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
+    "enabled": true,
+    "addLabels": ["security"]
   },
   "terraform": {
     "ignorePaths": [
@@ -41,7 +36,6 @@
     ]
   },
   "pre-commit": {
-    "description": "In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/",
     "enabled": true
   }
 }
