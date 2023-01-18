@@ -4,6 +4,7 @@
     "local>SpotOnInc/renovate-config"
   ],
   "packageRules": [
+    // Autoupdate renovate pre-commit check once a month and automerge
     {
       "matchPackageNames": ["renovate"],
       "automerge": true,
