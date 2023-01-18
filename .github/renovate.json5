@@ -4,15 +4,30 @@
     "local>SpotOnInc/renovate-config"
   ],
   "packageRules": [
-    // Autoupdate renovate pre-commit check once a month and automerge
+    // Autoupdate renovate pre-commit-config version before
+    // main Renovate pre-commit check. And auto-merge without PR creation.
     {
       "matchPackageNames": ["renovate"],
       "automerge": true,
       "separateMinorPatch": false,
-      "automergeType": "pr",
+      "automergeType": "branch",
+      "separateMinorPatch": false,
       "stabilityDays": 0,
-      "prCreation": "immediate",
-      "extends": ["schedule:monthly"],
+      // Main pre-commit check run "after 4am on monday", this - before 3am.
+      "extends": ["schedule:earlyMondays"],
     }
   ],
+  "regexManagers": [
+    {
+      "description": "Update Renovate",
+      "fileMatch": [
+        "^\\.pre-commit-config|\\.yaml$",
+      ],
+      "matchStrings": [
+        "https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s"
+      ],
+      "depNameTemplate": "renovate",
+      "datasourceTemplate": "npm"
+    }
+  ]
 }
