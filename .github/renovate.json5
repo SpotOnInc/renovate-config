@@ -2,5 +2,17 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>SpotOnInc/renovate-config"
-  ]
+  ],
+  "packageRules": [
+    // Autoupdate renovate pre-commit check once a month and automerge
+    {
+      "matchPackageNames": ["renovate"],
+      "automerge": true,
+      "separateMinorPatch": false,
+      "automergeType": "pr",
+      "stabilityDays": 0,
+      "prCreation": "immediate",
+      "extends": ["schedule:monthly"],
+    }
+  ],
 }
