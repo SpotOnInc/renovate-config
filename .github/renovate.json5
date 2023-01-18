@@ -2,5 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>SpotOnInc/renovate-config"
-  ]
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["renovate"],
+      "automerge": true,
+      "separateMinorPatch": false,
+      "automergeType": "pr",
+      "stabilityDays": 0,
+      "prCreation": "immediate",
+      "extends": ["schedule:monthly"],
+    }
+  ],
 }
