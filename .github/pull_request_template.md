@@ -1,24 +1,39 @@
-<!-- Put the GitHub issue number or Jira ticket ID here! -->
-Ticket: 
+<!--
+Thank you for helping to improve renovate-config!
+-->
 
-## Description:
-<!-- What does this PR do? Why are we opening it? -->
+Put an `x` into the box if that apply:
 
-.
+- [ ] This PR introduces breaking change.
+- [ ] This PR fixes a bug.
+- [ ] This PR adds new functionality.
+- [ ] This PR enhances existing functionality.
 
-## Important Notes:
-<!-- Is there anything we need to know while reviewing? -->
-
-.
-
-## Checklist:
-
-- [ ] Code Quality
-- [ ] Success Criteria Met
-- [ ] Inline Documentation
+### Description of your changes
 
 <!--
-Last minute questions to consider -- if the answer is 'yes' to any of these, please make sure to note that above:
+Briefly describe what this pull request does. Be sure to direct your reviewers'
+attention to anything that needs special consideration.
+We love pull requests that resolve an open renovate-config issue. If yours does, you
+can uncomment the below line to indicate which issue/Jira ticket your PR fixes, for example
+"Fixes #123456":
+-->
+
+<!-- Fixes # -->
+<!-- Ticket: -->
+
+### How it was tested
+
+<!--
+Before reviewers can be confident in the correctness of this pull request, it
+needs to tested and shown to be correct. Briefly describe the testing that has
+already been done or which is planned for this change.
+-->
+
+
+
+<!--
+Last minute questions to consider, please make sure to note the below:
 
 - Does this change require an update to any other applications or third-party libraries?
 - Is this change blocked by anything else?
