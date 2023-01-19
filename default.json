@@ -1,5 +1,5 @@
 {
-  "description": "THIS FILE IF GENERATED FROM default.template.json5",
+  "description": "THIS FILE IS GENERATED FROM default.template.json5",
   "extends": [
     "config:base",
     "group:linters",
@@ -16,7 +16,7 @@
   ],
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
-  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config).",
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config); Renovate logs for debug [here](https://app.renovatebot.com/dashboard#{{platform}}/{{repository}}).",
   "schedule": ["after 4am on monday"],
   "stabilityDays": 3,
   "rollbackPrs": true,
