@@ -59,6 +59,7 @@ Otherwise:
         # https://prettier.io/docs/en/options.html#parser
         files: '.json5$'
     ```
+
 5. Be sure that the `Dependency graph` and `Dependabot alerts` are enabled for the repo. [Details](https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts).
 6. Merge PR and relax. Renovate will create PRs based on provided schedules. By default, you will see Renovate PRs on Mondays.
 
@@ -66,7 +67,7 @@ Otherwise:
 
 To change the default config, edit [`default.template.json5`](default.template.json5) and create a PR. The matching `default.json` will be automatically [generated and added](.github/workflows/generate-renovate-config.yaml) after your PR is merged.
 
-> Note: If your new `default.json` config does not apply for more than 6 hours, create test repo and copy-paste the whole `default.json` over and rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
+> **Note**: If your new `default.json` config does not apply for more than 6 hours, create test repo and copy-paste the whole `default.json` over and rename it to `renovate.json`. Renovatebot will test the configuration and create issues if it found problems with the configuration. Or you can ask ChatGPT :)
 
 ### New Releases
 
