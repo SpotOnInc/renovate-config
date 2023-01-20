@@ -14,6 +14,15 @@
       // Main pre-commit check run "after 4am on monday", this - before 3am.
       extends: ["schedule:earlyMondays"],
     },
+    {
+      matchPackageNames: ["prettier"],
+      automerge: true,
+      separateMinorPatch: false,
+      automergeType: "branch",
+      separateMinorPatch: false,
+      // Main pre-commit check run "after 4am on monday", this - before 3am.
+      extends: ["schedule:earlyMondays"],
+    },
   ],
   regexManagers: [
     {
@@ -23,6 +32,15 @@
         "https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s",
       ],
       depNameTemplate: "renovate",
+      datasourceTemplate: "npm",
+    },
+    {
+      description: "Update Prettier in docs",
+      fileMatch: ["^\\.pre-commit-config|\\.yaml$", "^README\\.md$"],
+      matchStrings: [
+        "https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s",
+      ],
+      depNameTemplate: "prettier",
       datasourceTemplate: "npm",
     },
   ],
