@@ -61,7 +61,7 @@ repos:
         files: 'renovate.json5$'
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 34.107.0
+    rev: 34.110.0
     hooks:
       - id: renovate-config-validator
         files: default.template.json5
