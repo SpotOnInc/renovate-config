@@ -38,7 +38,7 @@ jobs:
       # Native pre-commit action fix by `token` not works in this case.
     - name: Push fixes
       if: failure()
-      uses: EndBug/add-and-commit@v9
+      uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b # v9.1.1
       with:
         # Determines the way the action fills missing author name and email. Three options are available:
         # - github_actor -> UserName <UserName@users.noreply.github.com>
