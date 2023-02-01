@@ -7,10 +7,25 @@ on:
 
 jobs:
   trigger-check:
-    name: Release
+    name: Check is a new Release needed
     runs-on: ubuntu-latest
     steps:
+      - name: Gets latest created release info
+        id: latest_release_info
+        uses: jossef/action-latest-release-info@v1.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: calculation
+        run: |
+          RELEASE_TIME="$(date +%s -u -d ${{ steps.latest_release_info.outputs.created_at }})"
+          TIME_NOW="$(date +%s -u)"
+          DAYS_AFTER_RELEASE="$(date +%-j -d @$(( $TIME_NOW - $RELEASE_TIME )))"
+
+          echo "days_after_release=$DAYS_AFTER_RELEASE" >> $GITHUB_OUTPUT
+
       - name: Repository Dispatch
+        if: ${{ steps.calculation.outputs.days_after_release > 30 }}
         uses: peter-evans/repository-dispatch@26b39ed245ab8f31526069329e112ab2fb224588 # v2.1.1
         with:
           event-type: trigger-release
