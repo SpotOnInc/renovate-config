@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Gets latest created release info
         id: latest_release_info
-        uses: jossef/action-latest-release-info@v1.2.1
+        uses: jossef/action-latest-release-info@91c9567e8d5ad9efe800f12fa268a9b67cbe6843 # v1.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
