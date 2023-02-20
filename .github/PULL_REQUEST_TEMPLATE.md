@@ -14,7 +14,7 @@ Put an `x` into the box if that applies:
 <!--
 Briefly describe what this pull request does. Be sure to direct your reviewers'
 attention to anything that needs special consideration.
-We love Pull Requests that resolve an open renovate-config issue. If yours does, you
+We love pull requests that resolve an open renovate-config issue. If yours does, you
 can uncomment the below line to indicate which issue/Jira ticket your PR fixes, for example
 "Fixes #123456":
 -->
