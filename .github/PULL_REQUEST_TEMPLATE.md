@@ -2,7 +2,7 @@
 Thank you for helping to improve renovate-config!
 -->
 
-Put an `x` into the box if that apply:
+Put an `x` into the box if that applies:
 
 - [ ] This PR introduces breaking change.
 - [ ] This PR fixes a bug.
@@ -22,12 +22,12 @@ can uncomment the below line to indicate which issue/Jira ticket your PR fixes, 
 <!-- Fixes # -->
 <!-- Ticket: -->
 
-### How it was tested
+### How was it tested
 
 <!--
-Before reviewers can be confident in the correctness of this pull request, it
-needs to tested and shown to be correct. Briefly describe the testing that has
-already been done or which is planned for this change.
+Before reviewers can be confident in the correctness of this pull request,
+it needs to be tested and shown to be correct. Briefly describe the testing
+that has already been done or which is planned for this change.
 -->
 
 
