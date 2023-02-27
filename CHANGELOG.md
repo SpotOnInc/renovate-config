@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.2.0](https://github.com/SpotOnInc/renovate-config/compare/v1.1.0...v1.2.0) (2023-02-27)
+
+
+### Features
+
+* Remove `v` prefix in Dockerfile `_VERSION` variables ([#54](https://github.com/SpotOnInc/renovate-config/issues/54)) ([0090822](https://github.com/SpotOnInc/renovate-config/commit/0090822746015f84522cc382aa28e6c07909d147))
+
+
+### Reverts
+
+* Revert "chore(deps): update jossef/action-latest-release-info action to v1.2.2" (#53) ([f52e989](https://github.com/SpotOnInc/renovate-config/commit/f52e989d7fa4734db4a880e7098c0fb73cfb0c02)), closes [#53](https://github.com/SpotOnInc/renovate-config/issues/53)
+
 # [1.1.0](https://github.com/SpotOnInc/renovate-config/compare/v1.0.0...v1.1.0) (2023-01-23)
 
 
