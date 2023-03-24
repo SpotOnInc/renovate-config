@@ -69,10 +69,16 @@
   },
   "packageRules": [
     {
-      "description": "v prefix workaround for action and Dockerfile updates",
-      "matchDepTypes": ["action", "docker"],
+      "description": "v prefix workaround for action updates",
+      "matchDepTypes": ["action"],
       "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
       "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    },
+    {
+      "description": "Remove v prefix in regex `_VERSION` updates",
+      "matchManagers": ["regex"],
+      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+)$",
+      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
     },
   ],
   // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
