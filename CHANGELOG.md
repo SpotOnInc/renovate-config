@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1](https://github.com/SpotOnInc/renovate-config/compare/v1.2.0...v1.2.1) (2023-03-24)
+
+
+### Bug Fixes
+
+* Remove `v` prefix in Dockerfile and Github Action `_VERSION` variables ([#64](https://github.com/SpotOnInc/renovate-config/issues/64)) ([5910fc0](https://github.com/SpotOnInc/renovate-config/commit/5910fc0e8cfca02521dd00cf64aad842529dcbef))
+
 # [1.2.0](https://github.com/SpotOnInc/renovate-config/compare/v1.1.0...v1.2.0) (2023-02-27)
 
 
