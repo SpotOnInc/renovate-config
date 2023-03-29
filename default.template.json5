@@ -77,8 +77,8 @@
     {
       "description": "Remove v prefix in regex `_VERSION` updates",
       "matchManagers": ["regex"],
-      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+)$",
-      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
+      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     },
   ],
   // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
