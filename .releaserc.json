@@ -8,6 +8,14 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     [
+      "@semantic-release/github",
+      {
+        "successComment": false,
+        "labels": false,
+        "releasedLabels": false
+      }
+    ],
+    [
       "@semantic-release/changelog",
       {
         "changelogFile": "CHANGELOG.md",
