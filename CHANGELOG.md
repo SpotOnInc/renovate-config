@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2](https://github.com/SpotOnInc/renovate-config/compare/v1.2.1...v1.2.2) (2023-03-30)
+
+
+### Bug Fixes
+
+* Removal `v` prefix in `_VERSION` now support `X.Y.Zany.thing` tags ([#66](https://github.com/SpotOnInc/renovate-config/issues/66)) ([e808761](https://github.com/SpotOnInc/renovate-config/commit/e808761abc0ceb98b255c5c5d6b1378168dff20e))
+
 ## [1.2.1](https://github.com/SpotOnInc/renovate-config/compare/v1.2.0...v1.2.1) (2023-03-24)
 
 
