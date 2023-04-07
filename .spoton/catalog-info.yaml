@@ -3,24 +3,22 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: renovate-config
-  description: | 
+  description: |
     Shareable Config Presets for SpotOn. It contains wide-use Renovatebot configs, based on our toolset and mindset.
-  
+
   annotations:
     github.com/project-slug: spotoninc/renovate-config
   # backstage.io/techdocs-ref: dir:.
   tags:
     - oss # tag
-    - nest-js # framework
   links:
-    
+
     - title: "Production Logs"
       type: observability
       url: https://app.renovatebot.com/dashboard
       icon: search
-      
+
 spec:
   type: library
-  owner: group:default/ops
+  owner: open-source
   lifecycle: production
-  
