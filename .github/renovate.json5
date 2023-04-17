@@ -1,47 +1,56 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["local>SpotOnInc/renovate-config"],
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'local>SpotOnInc/renovate-config',
+  ],
   packageRules: [
-    // Autoupdate renovate pre-commit-config version before
-    // main Renovate pre-commit check. And auto-merge without PR creation.
     {
-      matchPackageNames: ["renovate"],
+      matchPackageNames: [
+        'renovate',
+      ],
       automerge: true,
       separateMinorPatch: false,
-      automergeType: "branch",
-      separateMinorPatch: false,
-      stabilityDays: 0,
-      // Main pre-commit check run "after 4am on monday", this - before 3am.
-      extends: ["schedule:earlyMondays"],
+      automergeType: 'branch',
+      minimumReleaseAge: null,
+      extends: [
+        'schedule:earlyMondays',
+      ],
     },
     {
-      matchPackageNames: ["prettier"],
+      matchPackageNames: [
+        'prettier',
+      ],
       automerge: true,
       separateMinorPatch: false,
-      automergeType: "branch",
-      separateMinorPatch: false,
-      // Main pre-commit check run "after 4am on monday", this - before 3am.
-      extends: ["schedule:earlyMondays"],
+      automergeType: 'branch',
+      extends: [
+        'schedule:earlyMondays',
+      ],
     },
   ],
   regexManagers: [
     {
-      description: "Update Renovate",
-      fileMatch: ["^\\.pre-commit-config|\\.yaml$"],
-      matchStrings: [
-        "https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s",
+      description: 'Update Renovate',
+      fileMatch: [
+        '^\\.pre-commit-config|\\.yaml$',
       ],
-      depNameTemplate: "renovate",
-      datasourceTemplate: "npm",
+      matchStrings: [
+        'https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s',
+      ],
+      depNameTemplate: 'renovate',
+      datasourceTemplate: 'npm',
     },
     {
-      description: "Update Prettier in docs",
-      fileMatch: ["^\\.pre-commit-config|\\.yaml$", "^README\\.md$"],
-      matchStrings: [
-        "https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s",
+      description: 'Update Prettier in docs',
+      fileMatch: [
+        '^\\.pre-commit-config|\\.yaml$',
+        '^README\\.md$',
       ],
-      depNameTemplate: "prettier",
-      datasourceTemplate: "npm",
+      matchStrings: [
+        'https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s',
+      ],
+      depNameTemplate: 'prettier',
+      datasourceTemplate: 'npm',
     },
   ],
 }
