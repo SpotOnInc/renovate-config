@@ -18,7 +18,7 @@
   "dependencyDashboardLabels": ["auto-update"],
   "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config); Renovate logs for debug [here](https://app.renovatebot.com/dashboard#{{platform}}/{{repository}}).",
   "schedule": ["after 4am on monday"],
-  "stabilityDays": 3,
+  "minimumReleaseAge": "3 days",
   "rollbackPrs": true,
   "addLabels": [
     "auto-update",
