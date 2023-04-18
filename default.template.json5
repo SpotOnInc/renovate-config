@@ -35,7 +35,7 @@
   // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
   "schedule": ["after 4am on monday"],
   // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#minimumreleaseage
-  "minimumReleaseAge": 3,
+  "minimumReleaseAge": "3 days",
   // Create PRs to roll back versions
   // if the current version is not found in the registry.                     | https://docs.renovatebot.com/configuration-options/#rollbackprs
   "rollbackPrs": true,
