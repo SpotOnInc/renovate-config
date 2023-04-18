@@ -34,8 +34,8 @@
   "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config); Renovate logs for debug [here](https://app.renovatebot.com/dashboard#{{platform}}/{{repository}}).",
   // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
   "schedule": ["after 4am on monday"],
-  // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#stabilitydays
-  "stabilityDays": 3,
+  // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#minimumreleaseage
+  "minimumReleaseAge": "3 days",
   // Create PRs to roll back versions
   // if the current version is not found in the registry.                     | https://docs.renovatebot.com/configuration-options/#rollbackprs
   "rollbackPrs": true,

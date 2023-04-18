@@ -10,7 +10,7 @@
       separateMinorPatch: false,
       automergeType: "branch",
       separateMinorPatch: false,
-      stabilityDays: 0,
+      minimumReleaseAge: null,
       // Main pre-commit check run "after 4am on monday", this - before 3am.
       extends: ["schedule:earlyMondays"],
     },
@@ -19,7 +19,6 @@
       automerge: true,
       separateMinorPatch: false,
       automergeType: "branch",
-      separateMinorPatch: false,
       // Main pre-commit check run "after 4am on monday", this - before 3am.
       extends: ["schedule:earlyMondays"],
     },
