@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.0.0](https://github.com/SpotOnInc/renovate-config/compare/v1.2.2...v2.0.0) (2023-04-18)
+
+
+### chore
+
+* **config:** migrate renovate config ([#69](https://github.com/SpotOnInc/renovate-config/issues/69)) ([4fca174](https://github.com/SpotOnInc/renovate-config/commit/4fca17490a8b2dd8df39ca93d26f50d1fb106473))
+
+
+### BREAKING CHANGES
+
+* **config:** Renovate change configh option from `stabilityDays` to `minimumReleaseAge`
+
 ## [1.2.2](https://github.com/SpotOnInc/renovate-config/compare/v1.2.1...v1.2.2) (2023-03-30)
 
 
