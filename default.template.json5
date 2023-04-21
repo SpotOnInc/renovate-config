@@ -80,6 +80,12 @@
       "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     },
+    {
+      // Extend update period because of Docker Hub API rate limits.
+      // That can be avoided by making self-hosted Renovate and providing token.
+      "matchDatasources": ["docker"],
+      "schedule": ["after 4am on monday and tuesday"],
+    }
   ],
   // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
   "kubernetes": {
