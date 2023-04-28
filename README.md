@@ -130,7 +130,7 @@ If there are no releases for more than 30 days and in `main` present something t
 * [How to create a custom regex manager](https://www.cloudquery.io/how-to-guides/update-plugins-using-renovate)
 
 
-1. Create a regex manager in your `renovate.json5` like
+1. Create a regex manager in your `renovate.json5` such as:
 
     ```json5
     {
@@ -163,7 +163,7 @@ If there are no releases for more than 30 days and in `main` present something t
 
     and fill all fields except `matchStrings`.
 
-2. Find file with dependencies that you want to update and past file content to [regex101.com](https://regex101.com)
+2. Find file with dependencies that you want to update and paste file content to [regex101.com](https://regex101.com)
 
 3. Write regex for `matchStrings` which will catch:
 
@@ -179,9 +179,9 @@ If there are no releases for more than 30 days and in `main` present something t
 
     </details>
 
-4. Copy regex from `regex101.com` to `matchStrings` section. Replace all `\` by `\\`.
+4. Copy regex from `regex101.com` to `matchStrings` section. Replace all `\` with `\\`.
 
-5. Test that all works as expected. It could be done by creating temporary repo with your Renovate config and test file, with a non-latest version. Read Renovate logs, force PR creation, and check opened PR if needed.
+5. Test that all works as expected. It could be done by creating a temporary repo with your Renovate config and test file, with a non-latest version. Read Renovate logs, force PR creation, and check opened PR if needed.
 
     <details><summary>Possible Final Result</summary>
 
