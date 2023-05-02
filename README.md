@@ -8,11 +8,12 @@ These are [Shareable Config Presets](https://docs.renovatebot.com/config-presets
 * [Useful links](#useful-links)
   * [Renovate App and presets configuration](#renovate-app-and-presets-configuration)
   * [Repos configuration](#repos-configuration)
+  * [Custom check creation](#custom-check-creation)
 * [Troubleshooting](#troubleshooting)
 
 ## Usage
 
-<!-- markdownlint-disable-next-line no-inline-html -->
+<!-- markdownlint-disable no-inline-html -->
 <details><summary>If Renovate has already been activated for repo</summary>
 
 1. Check to see if you have a `renovate.json` already. It can be in any of these [possible locations](https://docs.renovatebot.com/getting-started/installing-onboarding/#configuration-location).
@@ -28,16 +29,16 @@ These are [Shareable Config Presets](https://docs.renovatebot.com/config-presets
     ```
 
 After that, skip to step 3 below.
-<!-- markdownlint-disable-next-line no-inline-html -->
+
 </details>
 
 ---
 
 Otherwise:
 
-0. Manually update as much as you can before moving forward. You will have the best experience with Renovate if you start with a fully-updated repo.
-1. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask your GitHub org administrators to enable it.
-2. Renovate will create an [init PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
+1. Manually update as much as you can before moving forward. You will have the best experience with Renovate if you start with a fully-updated repo.
+2. Activate [Renovatebot Github App](https://github.com/marketplace/renovate) for your repo or ask your GitHub org administrators to enable it.
+3. Renovate will create an [init PR](https://docs.renovatebot.com/getting-started/installing-onboarding/#repository-onboarding) for the new repo - open it and check that it has:
 
     ```json5
     {
@@ -48,8 +49,8 @@ Otherwise:
     }
     ```
 
-3. (Optional) We recommend moving the config to `.github/renovate.json5`.
-4. (Optional) If you use [`pre-commit`](https://pre-commit.com/) we recommend adding next check to repo `.pre-commit-config.yaml`:
+4. (Optional) We recommend moving the config to `.github/renovate.json5`.
+5. (Optional) If you use [`pre-commit`](https://pre-commit.com/) we recommend adding next check to repo `.pre-commit-config.yaml`:
 
     ```yaml
     - repo: https://github.com/pre-commit/mirrors-prettier
@@ -60,8 +61,8 @@ Otherwise:
         files: '.json5$'
     ```
 
-5. Be sure that the `Dependency graph` and `Dependabot alerts` are enabled for the repo. [Details](https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts).
-6. Merge PR and relax. Renovate will create PRs based on provided schedules. By default, you will see Renovate PRs on Mondays.
+6. Be sure that the `Dependency graph` and `Dependabot alerts` are enabled for the repo. [Details](https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts).
+7. Merge PR and relax. Renovate will create PRs based on provided schedules. By default, you will see Renovate PRs on Mondays.
 
 ## Development notes
 
@@ -124,6 +125,92 @@ If there are no releases for more than 30 days and in `main` present something t
 * [:rebaseStalePrs](https://docs.renovatebot.com/presets-default/#rebasestaleprs) - Rebase existing PRs any time the base branch has been updated.
 * [Update package/GHA references in Markdown files](https://github.com/renovatebot/.github/blob/d9b3c1914f4bf9dbecc6456610ca89530260572f/default.json#L121-L140)
 
+### Custom check creation
+
+* [How to create a custom regex manager](https://www.cloudquery.io/how-to-guides/update-plugins-using-renovate)
+
+
+1. Create a regex manager in your `renovate.json5` such as:
+
+    ```json5
+    {
+      regexManagers: [
+        {
+          description: "",
+          fileMatch: [""], // regex
+          matchStrings: [
+            "", // Your regex will be here
+          ],
+          //One of https://docs.renovatebot.com/modules/datasource/
+          datasourceTemplate: "",
+          packageNameTemplate: "{{packageName}}",
+          // custom-prefix@ needed only in case you;d like provide some custom rules to theses packages
+          depNameTemplate: "custom-prefix@{{packageName}}",
+           // In case you'd like remove `v` prefix
+          extractVersionTemplate: "^v?(?<version>.*)$",
+          // One of https://docs.renovatebot.com/modules/versioning/, IE `semver`:
+          versioningTemplate: "semver",
+        },
+      ],
+      //// By providing `packageRules` and `matchDepPatterns` you can customize your package updates from regexManager.
+      // packageRules: [
+      //   {
+      //     matchDepPatterns: ["^custom-prefix@"],
+      //   },
+      // ],
+    }
+    ```
+
+    and fill all fields except `matchStrings`.
+
+2. Find file with dependencies that you want to update and paste file content to [regex101.com](https://regex101.com)
+
+3. Write regex for `matchStrings` which will catch:
+
+    > **Note** Renovate uses RE2 without back and forward lookup groups support, so PCRE2 with these limitations in mind works fine
+
+    * current package version (`<currentValue>`)
+    * package source URL (`<packageName>`). What should be inside depends on `datasourceTemplate` which you will use.  
+      For example, for `datasourceTemplate: "github-releases"` you need cutch to `<packageName>` `GithubPkgOrg/PkgRepo` string.
+
+    <details><summary>Catch fields example</summary>
+
+    ![Regex catch example](docs/regex-example.png)
+
+    </details>
+
+4. Copy regex from `regex101.com` to `matchStrings` section. Replace all `\` with `\\`.
+
+5. Test that all works as expected. It could be done by creating a temporary repo with your Renovate config and test file, with a non-latest version. Read Renovate logs, force PR creation, and check opened PR if needed.
+
+    <details><summary>Possible Final Result</summary>
+
+    ```json5
+    {
+      // For https://atmos.tools/core-concepts/components/vendoring/#schema-componentyaml
+      regexManagers: [
+        {
+          description: "Update Atmos Vendor Components",
+          fileMatch: ["component.yaml$"],
+          matchStrings: [
+            "spec:(.|\\n)*?source:(.|\\n)*?uri:.*\\.[a-z]+\\/(?<packageName>.*)\\.git(.|\\n)*?version:[\\s]*(?<currentValue>.*)",
+          ],
+          datasourceTemplate: "github-releases",
+          packageNameTemplate: "{{packageName}}",
+          depNameTemplate: "atmos-vendor@{{packageName}}",
+          extractVersionTemplate: "^v?(?<version>.*)$",
+          versioningTemplate: "semver",
+        },
+      ],
+
+      packageRules: [
+        {
+          matchDepPatterns: ["^atmos-vendor@"],
+          extends: ["schedule:monthly"],
+        },
+      ],
+    }
+    ```
 
 ## Troubleshooting
 
