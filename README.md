@@ -215,4 +215,4 @@ If there are no releases for more than 30 days and in `main` present something t
 ## Troubleshooting
 
 * [Troubleshooting docs](https://docs.renovatebot.com/troubleshooting/)
-* [Renovate dashboard](https://app.renovatebot.com/dashboard)
+* [Renovate dashboard](https://developer.mend.io)
