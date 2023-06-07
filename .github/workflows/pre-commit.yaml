@@ -6,7 +6,7 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
     - run: |
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
     - name: Get changed files
@@ -20,7 +20,7 @@ jobs:
       with:
         python-version: '3.9'
     # Need to success pre-commit fix push
-    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       with:
         fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
