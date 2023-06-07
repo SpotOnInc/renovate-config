@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1](https://github.com/SpotOnInc/renovate-config/compare/v2.1.0...v2.1.1) (2023-06-07)
+
+
+### Bug Fixes
+
+* Renovate changed the domain of logs location ([#72](https://github.com/SpotOnInc/renovate-config/issues/72)) ([dc517ca](https://github.com/SpotOnInc/renovate-config/commit/dc517ca257df333dead37d5b01453718e71cbce4))
+
 # [2.1.0](https://github.com/SpotOnInc/renovate-config/compare/v2.0.0...v2.1.0) (2023-04-21)
 
 
