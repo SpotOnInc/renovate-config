@@ -32,8 +32,6 @@
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
   "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Main configs and useful links are located in [SpotOnInc/renovate-config](https://github.com/SpotOnInc/renovate-config); Renovate logs for debug [here](https://developer.mend.io/{{platform}}/{{repository}}).",
-  // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
-  "schedule": ["after 4am on monday"],
   // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#minimumreleaseage
   "minimumReleaseAge": "3 days",
   // Create PRs to roll back versions
@@ -67,6 +65,10 @@
   "pre-commit": {
     "enabled": true
   },
+  // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  },
   "packageRules": [
     {
       "description": "v prefix workaround for action updates",
@@ -81,14 +83,20 @@
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     },
     {
-      // Extend update period because of Docker Hub API rate limits.
-      // That can be avoided by making self-hosted Renovate and providing token.
-      "matchDatasources": ["docker"],
-      "schedule": ["after 4am on monday and tuesday"],
-    }
+      // Extend the update period because of Docker Hub API rate limits.
+      // That can be avoided by making a self-hosted Renovate and providing a token.
+      matchDatasources: ["docker"],
+      schedule: ["after 4am on monday and tuesday"],
+    },
+    {
+      // Extend the update period because of Docker Hub API rate limits.
+      // That can be avoided by making a self-hosted Renovate and providing a token.
+      matchManagers: ["regex"],
+      schedule: ["after 4am on monday and tuesday"],
+    },
   ],
-  // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
-  "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
-  },
+  // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
+  // Deal with docker updates firstly (on Monday) to workaround problems with Docker Rate limits
+  // Other idea - update them in different days at all. IE - docker only tue-wed, other stuff - Monday
+  schedule: ["after 4am on tuesday"],
 }
