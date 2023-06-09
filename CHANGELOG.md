@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.2.0](https://github.com/SpotOnInc/renovate-config/compare/v2.1.1...v2.2.0) (2023-06-09)
+
+
+### Features
+
+* Bypass Docker Hub rate limits, by prioritize docker updates ([#73](https://github.com/SpotOnInc/renovate-config/issues/73)) ([474c1bd](https://github.com/SpotOnInc/renovate-config/commit/474c1bd4101430cb09dab789533045547462c043))
+
 ## [2.1.1](https://github.com/SpotOnInc/renovate-config/compare/v2.1.0...v2.1.1) (2023-06-07)
 
 
