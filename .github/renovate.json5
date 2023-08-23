@@ -25,6 +25,7 @@
   ],
   regexManagers: [
     {
+      customType: "regex",
       description: "Update Renovate",
       fileMatch: ["^\\.pre-commit-config|\\.yaml$"],
       matchStrings: [
@@ -34,6 +35,7 @@
       datasourceTemplate: "npm",
     },
     {
+      customType: "regex",
       description: "Update Prettier in docs",
       fileMatch: ["^\\.pre-commit-config|\\.yaml$", "^README\\.md$"],
       matchStrings: [
