@@ -1,9 +1,9 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["local>SpotOnInc/renovate-config"],
+  packageRules: [
   // Autoupdate renovate pre-commit-config version before
   // main Renovate pre-commit check. And auto-merge without PR creation.
-  packageRules: [
     {
       matchPackageNames: ["renovate"],
       automerge: true,
