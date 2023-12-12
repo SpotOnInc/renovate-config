@@ -2,7 +2,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       # Git style
       - id: check-added-large-files # prevents giant files from being committed.
@@ -54,14 +54,14 @@ repos:
     - id: check-json5
 
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0
+    rev: v3.1.0
     hooks:
       - id: prettier
         # https://prettier.io/docs/en/options.html#parser
         files: 'renovate.json5$'
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 36.21.0
+    rev: 37.89.5
     hooks:
       - id: renovate-config-validator
         files: default.template.json5
