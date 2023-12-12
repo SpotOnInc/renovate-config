@@ -1,6 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["local>SpotOnInc/renovate-config"],
+  // Autoupdate renovate pre-commit-config version before
+  // main Renovate pre-commit check. And auto-merge without PR creation.
   packageRules: [
     {
       matchPackageNames: ["renovate"],
@@ -8,6 +10,7 @@
       separateMinorPatch: false,
       automergeType: "branch",
       minimumReleaseAge: null,
+      // Main pre-commit check run "after 4am on monday", this - before 3am.
       extends: ["schedule:earlyMondays"],
     },
     {
@@ -15,6 +18,7 @@
       automerge: true,
       separateMinorPatch: false,
       automergeType: "branch",
+      // Main pre-commit check run "after 4am on monday", this - before 3am.
       extends: ["schedule:earlyMondays"],
     },
   ],
