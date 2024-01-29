@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1](https://github.com/SpotOnInc/renovate-config/compare/v2.2.0...v2.2.1) (2024-01-29)
+
+
+### Bug Fixes
+
+* Deal with "File contents are invalid JSON but parse using JSON5" issue ([#100](https://github.com/SpotOnInc/renovate-config/issues/100)) ([f2f5e5b](https://github.com/SpotOnInc/renovate-config/commit/f2f5e5b4d0272165bdc0f06b754c510ba78cc71f))
+
 # [2.2.0](https://github.com/SpotOnInc/renovate-config/compare/v2.1.1...v2.2.0) (2023-06-09)
 
 
