@@ -25,7 +25,7 @@
     // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersdockerfileversions
     "regexManagers:dockerfileVersions",
     // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersgithubactionsversions
-    "regexManagers:githubActionsVersions",
+    "regexManagers:githubActionsVersions"
   ],
 
   // Dependency Dashboard issue customization.                                | https://docs.renovatebot.com/configuration-options/#dependencydashboard
@@ -38,9 +38,7 @@
   // if the current version is not found in the registry.                     | https://docs.renovatebot.com/configuration-options/#rollbackprs
   "rollbackPrs": true,
   // All matched addLabels strings will be attached to the PR.                | https://docs.renovatebot.com/configuration-options/#addlabels
-  "addLabels": [
-    "auto-update",
-  ],
+  "addLabels": ["auto-update"],
   // Sometimes you need to change your Renovate configuration.
   // To help with this, Renovate will create config migration pull requests.  | https://docs.renovatebot.com/configuration-options/#configmigration
   "configMigration": true,
@@ -52,14 +50,12 @@
     "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
     "enabled": true,
     // Append `security` label.
-    "addLabels": ["security"],
+    "addLabels": ["security"]
   },
   // Terraform manager custom settings                                        | https://docs.renovatebot.com/modules/manager/terraform/
   "terraform": {
-    "ignorePaths": [
-      "**/context.tf", // Cloud Posse managed
-    ],
-    "pinDigests": true, // Make versions idempotent
+    "ignorePaths": ["**/context.tf"], // Cloud Posse managed
+    "pinDigests": true // Make versions idempotent
   },
   // In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
@@ -85,18 +81,18 @@
     {
       // Extend the update period because of Docker Hub API rate limits.
       // That can be avoided by making a self-hosted Renovate and providing a token.
-      matchDatasources: ["docker"],
-      schedule: ["after 4am on monday and tuesday"],
+      "matchDatasources": ["docker"],
+      "schedule": ["after 4am on monday and tuesday"]
     },
     {
       // Extend the update period because of Docker Hub API rate limits.
       // That can be avoided by making a self-hosted Renovate and providing a token.
-      matchManagers: ["regex"],
-      schedule: ["after 4am on monday and tuesday"],
-    },
+      "matchManagers": ["regex"],
+      "schedule": ["after 4am on monday and tuesday"]
+    }
   ],
   // Limit branch creation to these times of day or week.                     | https://docs.renovatebot.com/configuration-options/#schedule
   // Deal with docker updates firstly (on Monday) to workaround problems with Docker Rate limits
   // Other idea - update them in different days at all. IE - docker only tue-wed, other stuff - Monday
-  schedule: ["after 4am on tuesday"],
+  "schedule": ["after 4am on tuesday"]
 }
