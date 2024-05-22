@@ -8,7 +8,7 @@ on:
 jobs:
   trigger-check:
     name: Check is a new Release needed
-    runs-on: ubuntu-latest
+    runs-on: medium
     steps:
       - name: Gets latest created release info
         id: latest_release_info
