@@ -1,0 +1,16 @@
+name: "Validate Catalog Info"
+
+on:
+  push:
+    paths:
+      - '.spoton/**'
+  pull_request:
+    paths:
+      - '.spoton/**'
+
+jobs:
+  validate-catalog-info:
+    runs-on: medium
+    steps:
+      - uses: actions/checkout@main
+      - uses: spotoninc/github-action-validate-catalog-info@main
