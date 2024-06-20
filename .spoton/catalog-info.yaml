@@ -9,7 +9,7 @@ metadata:
   annotations:
     github.com/project-slug: spotoninc/renovate-config
   # backstage.io/techdocs-ref: dir:.
-    spoton.com/domain: domain:default/open-source
+    spoton.com/domain: domain:default/infrastucture
   tags:
     - oss # tag
   links:
