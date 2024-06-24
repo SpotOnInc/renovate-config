@@ -5,8 +5,8 @@
     "config:base",
     // Group various lint packages together.                                  | https://docs.renovatebot.com/presets-group/#grouplinters
     "group:linters",
-    // Pin GitHub Action digests.                                             | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
-    "helpers:pinGitHubActionDigests",
+    // Pin GitHub Action digests and pin them to SemVer.                      | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigeststosemver
+    "helpers:pinGitHubActionDigestsToSemver",
     // Upgrade Minor and Major Docker tags to newer versions.                 | https://docs.renovatebot.com/presets-preview/#previewdockerversions
     "preview:dockerVersions",
     // Pin Docker digests.                                                    | https://docs.renovatebot.com/presets-docker/#dockerpindigests
@@ -66,12 +66,6 @@
     "fileMatch": ["\\.yaml$"]
   },
   "packageRules": [
-    {
-      "description": "v prefix workaround for action updates",
-      "matchDepTypes": ["action"],
-      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
-      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
-    },
     {
       "description": "Remove v prefix in regex `_VERSION` updates",
       "matchManagers": ["regex"],
