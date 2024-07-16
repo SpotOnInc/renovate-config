@@ -16,7 +16,7 @@ jobs:
         echo "Diff between ${{ github.base_ref }} and ${{ github.sha }}"
         echo "files=$( echo "$DIFF" | xargs echo )" >> $GITHUB_OUTPUT
 
-    - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+    - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
       with:
         python-version: '3.9'
     # Need to success pre-commit fix push
