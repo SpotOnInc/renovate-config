@@ -54,7 +54,7 @@ Otherwise:
 
     ```yaml
     - repo: https://github.com/pre-commit/mirrors-prettier
-      rev: v3.0.0-alpha.4
+      rev: v3.1.0
       hooks:
       - id: prettier
         # https://prettier.io/docs/en/options.html#parser
