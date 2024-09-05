@@ -12,7 +12,8 @@
     ":semanticCommits",
     ":semanticPrefixFixDepsChoreOthers",
     "regexManagers:dockerfileVersions",
-    "regexManagers:githubActionsVersions"
+    "regexManagers:githubActionsVersions",
+    "security:openssf-scorecard"
   ],
   "dependencyDashboardTitle": "Renovate Dependency Dashboard",
   "dependencyDashboardLabels": ["auto-update"],
@@ -27,6 +28,7 @@
     "enabled": true,
     "addLabels": ["security"]
   },
+  "osvVulnerabilityAlerts": true,
   "terraform": {
     "ignorePaths": ["**/context.tf"],
     "pinDigests": true

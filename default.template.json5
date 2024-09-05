@@ -25,7 +25,9 @@
     // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-customManagers/#custommanagersdockerfileversions
     "customManagers:dockerfileVersions",
     // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-customManagers/#custommanagersgithubactionsversions
-    "customManagers:githubActionsVersions"
+    "customManagers:githubActionsVersions",
+    // Show OpenSSF badge on pull requests.                                   | https://docs.renovatebot.com/presets-security/#securityopenssf-scorecard
+    "security:openssf-scorecard"
   ],
 
   // Dependency Dashboard issue customization.                                | https://docs.renovatebot.com/configuration-options/#dependencydashboard
@@ -52,6 +54,8 @@
     // Append `security` label.
     "addLabels": ["security"]
   },
+  // Use vulnerability alerts from https://osv.dev                            | https://docs.renovatebot.com/configuration-options/#osvvulnerabilityalerts
+  "osvVulnerabilityAlerts": true,
   // Terraform manager custom settings                                        | https://docs.renovatebot.com/modules/manager/terraform/
   "terraform": {
     "ignorePaths": ["**/context.tf"], // Cloud Posse managed
