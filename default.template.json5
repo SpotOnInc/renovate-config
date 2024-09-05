@@ -1,8 +1,8 @@
 {
   "extends": [
     // Default base configuration for all languages.
-    // https://docs.renovatebot.com/presets-config/#configbase
-    "config:base",
+    // https://docs.renovatebot.com/presets-config/#configrecommended
+    "config:recommended",
     // Group various lint packages together.                                  | https://docs.renovatebot.com/presets-group/#grouplinters
     "group:linters",
     // Pin GitHub Action digests.                                             | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
@@ -22,10 +22,10 @@
     // If Renovate detects semantic commits, it will use semantic
     // commit type `fix` for dependencies and `chore` for all others.         | https://docs.renovatebot.com/presets-default/#semanticprefixfixdepschoreothers
     ":semanticPrefixFixDepsChoreOthers",
-    // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersdockerfileversions
-    "regexManagers:dockerfileVersions",
-    // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersgithubactionsversions
-    "regexManagers:githubActionsVersions",
+    // Update `_VERSION` variables in Dockerfiles.                            | https://docs.renovatebot.com/presets-customManagers/#custommanagersdockerfileversions
+    "customManagers:dockerfileVersions",
+    // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-customManagers/#custommanagersgithubactionsversions
+    "customManagers:githubActionsVersions",
     // Show OpenSSF badge on pull requests.                                   | https://docs.renovatebot.com/presets-security/#securityopenssf-scorecard
     "security:openssf-scorecard"
   ],
@@ -78,7 +78,7 @@
     },
     {
       "description": "Remove v prefix in regex `_VERSION` updates",
-      "matchManagers": ["regex"],
+      "matchManagers": ["custom.regex"],
       "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     },
@@ -91,7 +91,7 @@
     {
       // Extend the update period because of Docker Hub API rate limits.
       // That can be avoided by making a self-hosted Renovate and providing a token.
-      "matchManagers": ["regex"],
+      "matchManagers": ["custom.regex"],
       "schedule": ["after 4am on monday and tuesday"]
     }
   ],
