@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.3.0](https://github.com/SpotOnInc/renovate-config/compare/v2.2.1...v2.3.0) (2024-09-05)
+
+
+### Features
+
+* **security:** Track vulnerability alerts from `osv.dev`; Enable OpenSSF badge on PRs ([#107](https://github.com/SpotOnInc/renovate-config/issues/107)) ([e950613](https://github.com/SpotOnInc/renovate-config/commit/e95061362b7e006ff8ba9c99cd622953e6be5f71))
+
 ## [2.2.1](https://github.com/SpotOnInc/renovate-config/compare/v2.2.0...v2.2.1) (2024-01-29)
 
 
