@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.0.0](https://github.com/SpotOnInc/renovate-config/compare/v2.3.0...v3.0.0) (2024-09-10)
+
+
+### Features
+
+* **config:** Make up-to-date configs and links. Require Renovate v37.357.0+ ([#108](https://github.com/SpotOnInc/renovate-config/issues/108)) ([5e3f847](https://github.com/SpotOnInc/renovate-config/commit/5e3f8470f1a30243f4390308586b32c2abfd2122)), closes [1#L120](https://github.com/1/issues/L120)
+
+
+### BREAKING CHANGES
+
+* **config:** These changes require Renovate v37.357.0+
+
+### Description of your changes
+
+
+Actually `config:base` renamed to `config:recommended` in v36
+
 # [2.3.0](https://github.com/SpotOnInc/renovate-config/compare/v2.2.1...v2.3.0) (2024-09-05)
 
 
