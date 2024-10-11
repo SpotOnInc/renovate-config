@@ -10,7 +10,7 @@ on:
 
 jobs:
   validate-catalog-info:
-    runs-on: medium
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
       - uses: spotoninc/github-action-validate-catalog-info@main
