@@ -69,6 +69,11 @@
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
+  // Disable copier until Renovate will support our custom copier structure OR
+  // until Delivery team will change how we use copier
+  "copier": {
+    "enabled": false
+  },
   "packageRules": [
     {
       "description": "v prefix workaround for action updates",
