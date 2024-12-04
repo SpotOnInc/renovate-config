@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1](https://github.com/SpotOnInc/renovate-config/compare/v3.0.0...v3.0.1) (2024-12-04)
+
+
+### Bug Fixes
+
+* Disable `copier` as not working very well ([#112](https://github.com/SpotOnInc/renovate-config/issues/112)) ([adbb65d](https://github.com/SpotOnInc/renovate-config/commit/adbb65d461cab30295eb5f40c91c5318b04c724a))
+
 # [3.0.0](https://github.com/SpotOnInc/renovate-config/compare/v2.3.0...v3.0.0) (2024-09-10)
 
 
