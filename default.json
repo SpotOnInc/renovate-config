@@ -39,6 +39,9 @@
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
+  "copier": {
+    "enabled": false
+  },
   "packageRules": [
     {
       "description": "v prefix workaround for action updates",
