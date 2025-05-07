@@ -1,58 +1,46 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: [
-    'local>SpotOnInc/renovate-config',
-  ],
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["local>SpotOnInc/renovate-config"],
   packageRules: [
     {
-      matchPackageNames: [
-        'renovate',
-      ],
+      matchPackageNames: ["renovate"],
       automerge: true,
       separateMinorPatch: false,
-      automergeType: 'branch',
+      automergeType: "branch",
       minimumReleaseAge: null,
-      extends: [
-        'schedule:earlyMondays',
-      ],
+      extends: ["schedule:earlyMondays"],
     },
     {
-      matchPackageNames: [
-        'prettier',
-      ],
+      matchPackageNames: ["prettier"],
       automerge: true,
       separateMinorPatch: false,
-      automergeType: 'branch',
-      extends: [
-        'schedule:earlyMondays',
-      ],
+      automergeType: "branch",
+      extends: ["schedule:earlyMondays"],
     },
   ],
   customManagers: [
     {
-      customType: 'regex',
-      description: 'Update Renovate',
-      managerFilePatterns: [
-        '/^\\.pre-commit-config|\\.yaml$/',
-      ],
+      customType: "regex",
+      description: "Update Renovate",
+      managerFilePatterns: ["/^\\.pre-commit-config|\\.yaml$/"],
       matchStrings: [
-        'https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s',
+        "https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s",
       ],
-      depNameTemplate: 'renovate',
-      datasourceTemplate: 'npm',
+      depNameTemplate: "renovate",
+      datasourceTemplate: "npm",
     },
     {
-      customType: 'regex',
-      description: 'Update Prettier in docs',
+      customType: "regex",
+      description: "Update Prettier in docs",
       managerFilePatterns: [
-        '/^\\.pre-commit-config|\\.yaml$/',
-        '/^README\\.md$/',
+        "/^\\.pre-commit-config|\\.yaml$/",
+        "/^README\\.md$/",
       ],
       matchStrings: [
-        'https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s',
+        "https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s",
       ],
-      depNameTemplate: 'prettier',
-      datasourceTemplate: 'npm',
+      depNameTemplate: "prettier",
+      datasourceTemplate: "npm",
     },
   ],
 }
