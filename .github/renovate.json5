@@ -26,7 +26,7 @@
     {
       customType: "regex",
       description: "Update Renovate",
-      fileMatch: ["^\\.pre-commit-config|\\.yaml$"],
+      managerFilePatterns: ["/^\\.pre-commit-config|\\.yaml$/"],
       matchStrings: [
         "https://github.com/renovatebot/pre-commit-hooks\\s?rev: (?<currentValue>.*?)\\s",
       ],
@@ -36,7 +36,10 @@
     {
       customType: "regex",
       description: "Update Prettier in docs",
-      fileMatch: ["^\\.pre-commit-config|\\.yaml$", "^README\\.md$"],
+      managerFilePatterns: [
+        "/^\\.pre-commit-config|\\.yaml$/",
+        "/^README\\.md$/",
+      ],
       matchStrings: [
         "https://github.com/pre-commit/mirrors-prettier\\s?rev: (?<currentValue>.*?)\\s",
       ],
