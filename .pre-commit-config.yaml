@@ -2,7 +2,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       # Git style
       - id: check-added-large-files # prevents giant files from being committed.
@@ -49,7 +49,7 @@ repos:
       - id: check-yaml # checks yaml files for parseable syntax.
 
   - repo: https://gitlab.com/bmares/check-json5
-    rev: v1.0.0
+    rev: v1.0.1
     hooks:
     - id: check-json5
 
@@ -61,7 +61,7 @@ repos:
         files: 'renovate.json5$'
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 42.66.11
+    rev: 42.66.8
     hooks:
       - id: renovate-config-validator
         files: default.template.json5
