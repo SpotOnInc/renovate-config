@@ -67,7 +67,7 @@
   },
   // No files by default. Enable to all possible files                        | https://docs.renovatebot.com/modules/manager/kubernetes/
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   },
   // Disable copier until Renovate will support our custom copier structure OR
   // until Delivery team will change how we use copier
