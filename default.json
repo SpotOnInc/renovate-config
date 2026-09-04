@@ -36,6 +36,15 @@
   "pre-commit": {
     "enabled": true
   },
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["/\\.pre-commit-config\\.ya?ml$|prek\\.toml$/"],
+      matchStrings: [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)[\\s\\S]*?--hook-config=--tool-version=(?<currentValue>[^\\s\"']+)",
+      ],
+    },
+  ],
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
