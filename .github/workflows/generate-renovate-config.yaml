@@ -39,7 +39,7 @@ jobs:
     #     cat default.template.json5 | json5-to-json > default.json
 
     - name: Push fixes
-      uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9.1.4
+      uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321 # v10.0.0
       with:
         # Determines the way the action fills missing author name and email. Three options are available:
         # - github_actor -> UserName <UserName@users.noreply.github.com>
