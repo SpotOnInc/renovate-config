@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.0](https://github.com/SpotOnInc/renovate-config/compare/v3.0.1...v3.1.0) (2026-09-04)
+
+
+### Features
+
+* Add support for pre-commit-terraform tools updates ([#143](https://github.com/SpotOnInc/renovate-config/issues/143)) ([d7796be](https://github.com/SpotOnInc/renovate-config/commit/d7796be2813c4054f799aa5d8971300f7c53804e))
+
 ## [3.0.1](https://github.com/SpotOnInc/renovate-config/compare/v3.0.0...v3.0.1) (2024-12-04)
 
 
