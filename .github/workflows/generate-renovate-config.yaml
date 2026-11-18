@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - 'default.template.json5'
+      - '.github/workflows/generate-renovate-config.yaml'
 
 jobs:
   generate-renovate-config:
@@ -21,22 +22,11 @@ jobs:
 
     - name: Update default.json
       id: update_json
+      shell: bash
       run: |
-        sed 's|\s* //.*||g' default.template.json5 \
-          | sed -e '/^$/d' \
-          | sed -e 's/^{$/{\n  "description": "THIS FILE IS GENERATED FROM default.template.json5",/' \
+        npx --yes json5@2.2.3 default.template.json5 \
+          | jq '{description: "THIS FILE IS GENERATED FROM default.template.json5"} + .' \
           > default.json
-
-    # # Alternative solution, 3-times longer but without sed
-    # - uses: actions-rs/toolchain@v1
-    #   with:
-    #     toolchain: stable
-    # - run: cargo install json5-to-json
-
-    # - name: Generate default.json
-    #   id: generate_json
-    #   run: |
-    #     cat default.template.json5 | json5-to-json > default.json
 
     - name: Push fixes
       uses: EndBug/add-and-commit@cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8 # v11.1.1
